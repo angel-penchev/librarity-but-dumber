@@ -21,6 +21,30 @@ Book::Book(const Book &other) {
     copy(other);
 }
 
+Book::Book(std::ifstream& in) {
+    unsigned int nameLength;
+    in.read((char*) &nameLength, sizeof(nameLength));
+    name = new char[nameLength];
+    in.read(this->name, nameLength);
+
+    unsigned int authorLength;
+    in.read((char*) &authorLength, sizeof(authorLength));
+    name = new char[authorLength];
+    in.read(this->author, authorLength);
+
+    unsigned int descriptionLength;
+    in.read((char*) &descriptionLength, sizeof(descriptionLength));
+    name = new char[descriptionLength];
+    in.read(this->description, descriptionLength);
+
+    in.read((char *) &this->rating, sizeof(this->rating));
+
+    unsigned int ISBNLength;
+    in.read((char*) &ISBNLength, sizeof(ISBNLength));
+    name = new char[ISBNLength];
+    in.read(this->ISBN, ISBNLength);
+}
+
 Book &Book::operator=(const Book &other) {
     if (this != &other) {
         clear();

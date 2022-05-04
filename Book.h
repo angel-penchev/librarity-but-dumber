@@ -28,6 +28,8 @@ public:
 
     Book(const Book &other);
 
+    Book(std::ifstream& in);
+
     Book &operator=(const Book &other);
 
     virtual ~Book();
