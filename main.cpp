@@ -1,10 +1,14 @@
 #include <iostream>
 #include <cstring>
+#include <fstream>
+#include "Library.h"
 
 #define ADMIN_PWD "gosholosho" // Really making it easy for the ones out there with a decompiler :>
 #define MAX_PWD_ATTEMPTS 3
 #define MAX_PWD_LEN 128
 #define MAX_CMD_LEN 16
+#define BOOKS_FILE "books.bin"
+#define USERS_FILE "users.bin"
 
 int main() {
     bool isAdmin = false, isAttemptingAdmin;
@@ -28,6 +32,23 @@ int main() {
         std::cerr << "Failed to login as admin!\n";
         return 1;
     }
+
+    std::ifstream booksFile(BOOKS_FILE, std::ios::binary);
+    if (!booksFile){
+        std::cerr << "Couldn't open books database for reading!" << std::endl;
+        return 2;
+    }
+
+    std::ifstream usersFile(USERS_FILE, std::ios::binary);
+    if (!usersFile){
+        std::cerr << "Couldn't open users database for reading!" << std::endl;
+        return 2;
+    }
+
+    Library library = Library(booksFile, usersFile);
+
+    booksFile.close();
+    usersFile.close();
 
     char command[MAX_CMD_LEN];
     while (std::cout << "> " && std::cin >> command) {
