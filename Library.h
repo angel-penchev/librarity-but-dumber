@@ -22,6 +22,8 @@ public:
 
     void addUser(const User& user);
 
+    Book* findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet);
+
     void sortBooks();
 
     void printBooks();

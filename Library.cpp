@@ -22,7 +22,7 @@ void Library::addBook(const Book& book) {
     for (int i = 0; i < this->booksCount; i++) {
         newArr[i] = this->books[i];
     }
-    this->books[++this->booksCount] = book;
+    newArr[this->booksCount++] = book;
 
     delete[] this->books;
     this->books = newArr;
@@ -34,17 +34,30 @@ void Library::addUser(const User& user) {
     for (int i = 0; i < this->usersCount; i++) {
         newArr[i] = this->users[i];
     }
-    this->users[++this->usersCount] = user;
+    newArr[this->usersCount++] = user;
 
     delete[] this->users;
     this->users = newArr;
 }
 
+Book* Library::findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) {
+    for (unsigned int i = 0; i < this->booksCount; i++) {
+        if (!std::strcmp(this->books[i].getName(), name) &&
+        !std::strcmp(this->books[i].getAuthor(), author) &&
+        !strcmp(this->books[i].getISBN(), ISBN) &&
+        std::strstr(this->books[i].getDescription(), descriptionSnippet) != nullptr) {
+            return &this->books[i];
+        }
+    }
+    return nullptr;
+}
+
+
 void Library::sortBooks() {
     for (unsigned int i = 0; i < this->booksCount - 1; i++) {
-        for (unsigned int k = i + 1; i < this->booksCount - i - 1; i++) {
-            if (std::strcmp(this->books[i], this->books[j]) > 0) {
-                Book *tempBook = &books[i];
+        for (unsigned int j = i + 1; j < this->booksCount - i - 1; j++) {
+            if (std::strcmp(this->books[i].getName(), this->books[j].getName()) > 0) {
+                Book tempBook = books[i];
                 this->books[i] = this->books[j];
                 this->books[j] = tempBook;
             }

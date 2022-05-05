@@ -3,12 +3,13 @@
 #include <fstream>
 #include "Library.h"
 
-#define ADMIN_PWD "gosholosho" // Really making it easy for the ones out there with a decompiler :>
 #define MAX_PWD_ATTEMPTS 3
 #define MAX_PWD_LEN 128
 #define MAX_CMD_LEN 16
 #define BOOKS_FILE "books.bin"
 #define USERS_FILE "users.bin"
+
+const char *ADMIN_PWD = "gosholosho"; // Really making it easy for the ones out there with a decompiler :>
 
 int main() {
     bool isAdmin = false, isAttemptingAdmin;
@@ -19,12 +20,13 @@ int main() {
     std::cin >> isAttemptingAdminInput;
     isAttemptingAdmin = isAttemptingAdminInput == 'Y' || isAttemptingAdminInput == 'y';
 
+    std::cin.ignore();
     for (unsigned int i = 0; i < MAX_PWD_ATTEMPTS && isAttemptingAdmin; i++) {
         std::cout << "Enter administrator password: ";
         std::cin.getline(passwordInput, MAX_PWD_LEN - 1);
-        if (std::strcmp(passwordInput, ADMIN_PWD) == 0) {
+        if (!std::strcmp(passwordInput, ADMIN_PWD)) {
             isAdmin = true;
-            continue;
+            break;
         }
     }
 
@@ -42,7 +44,7 @@ int main() {
     std::ifstream usersFile(USERS_FILE, std::ios::binary);
     if (!usersFile){
         std::cerr << "Couldn't open users database for reading!" << std::endl;
-        return 2;
+        return 3;
     }
 
     Library library = Library(booksFile, usersFile);
@@ -59,6 +61,12 @@ int main() {
         }
 
         if (!std::strcmp(command, "find")) {
+            Book *book = library.findBook("gosho", "losho", "00-00", "never gonna");
+            if (book == nullptr) {
+                std::cerr << "ERR: Book not found!\n";
+                continue;
+            }
+            std::cout << book;
             continue;
         }
 
