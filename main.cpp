@@ -53,6 +53,8 @@ int main() {
     char command[MAX_CMD_LEN];
     while (std::cout << "> " && std::cin >> command) {
         if (!std::strcmp(command, "sort")) {
+            library.sortBooks();
+            library.printBooks();
             continue;
         }
 

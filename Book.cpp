@@ -55,7 +55,7 @@ Book &Book::operator=(const Book &other) {
 
 std::ostream &operator<<(std::ostream &os, const Book &book) {
     os << "Name: " << book.name << ", Author: " << book.author << ", Rating: " << book.rating << ", ISBN: "
-       << book.ISBN;
+       << book.ISBN << '\n';
     return os;
 }
 

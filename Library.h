@@ -21,6 +21,10 @@ public:
     void addBook(const Book& book);
 
     void addUser(const User& user);
+
+    void sortBooks();
+
+    void printBooks();
 };
 
 
