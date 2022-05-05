@@ -87,6 +87,8 @@ int main() {
                 continue;
             }
 
+            library.removeBook("gosho", "losho", "00-00", "never gonna");
+
             continue;
         }
 

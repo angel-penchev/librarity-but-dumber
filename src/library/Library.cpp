@@ -19,7 +19,7 @@ Library::Library(std::ifstream& inBooks, std::ifstream& inUsers) : books(new Boo
 void Library::addBook(const Book& book) {
     Book* newArr = new Book[this->booksCount + 1];
 
-    for (int i = 0; i < this->booksCount; i++) {
+    for (unsigned int i = 0; i < this->booksCount; i++) {
         newArr[i] = this->books[i];
     }
     newArr[this->booksCount++] = book;
@@ -31,7 +31,7 @@ void Library::addBook(const Book& book) {
 void Library::addUser(const User& user) {
     User* newArr = new User[this->usersCount + 1];
 
-    for (int i = 0; i < this->usersCount; i++) {
+    for (unsigned int i = 0; i < this->usersCount; i++) {
         newArr[i] = this->users[i];
     }
     newArr[this->usersCount++] = user;
@@ -41,17 +41,35 @@ void Library::addUser(const User& user) {
 }
 
 Book* Library::findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) {
-    for (unsigned int i = 0; i < this->booksCount; i++) {
-        if (!std::strcmp(this->books[i].getName(), name) &&
-        !std::strcmp(this->books[i].getAuthor(), author) &&
-        !strcmp(this->books[i].getISBN(), ISBN) &&
-        std::strstr(this->books[i].getDescription(), descriptionSnippet) != nullptr) {
-            return &this->books[i];
-        }
+    int bookIndex = this->findBookIndex(name, author, ISBN, descriptionSnippet);
+
+    if (bookIndex < 0) {
+        return nullptr;
     }
-    return nullptr;
+
+    return &this->books[bookIndex];
 }
 
+bool Library::removeBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) {
+    int bookIndex = this->findBookIndex(name, author, ISBN, descriptionSnippet);
+
+    if (bookIndex < 0) {
+        return false;
+    }
+
+    Book* newArr = new Book[--this->booksCount];
+
+    for (unsigned int i = 0; i < bookIndex; i++) {
+        newArr[i] = this->books[i];
+    }
+
+    for (unsigned int i = bookIndex; i < this->booksCount; i++) {
+        newArr[i] = this->books[i + 1];
+    }
+
+    delete[] this->books;
+    this->books = newArr;
+}
 
 void Library::sortBooks() {
     for (unsigned int i = 0; i < this->booksCount - 1; i++) {
@@ -69,4 +87,17 @@ void Library::printBooks() {
     for (unsigned int i = 0; i < this->booksCount; i++) {
         std::cout << this->books[i];
     }
+}
+
+int Library::findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) {
+    for (unsigned int i = 0; i < this->booksCount; i++) {
+        if (!std::strcmp(this->books[i].getName(), name) &&
+            !std::strcmp(this->books[i].getAuthor(), author) &&
+            !strcmp(this->books[i].getISBN(), ISBN) &&
+            std::strstr(this->books[i].getDescription(), descriptionSnippet) != nullptr) {
+            return (int) i;
+        }
+    }
+
+    return -1;
 }
