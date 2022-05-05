@@ -1,0 +1,56 @@
+\documentclass[pdftex,14pt,a4paper]{extreport}
+\usepackage[utf8]{inputenc}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[bulgarian]{babel}
+\usepackage[margin=1.25in]{geometry}
+\usepackage{hyperref}
+\usepackage[babel,style=swiss]{csquotes}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]{\huge}{\chaptername\space\thechapter.}{14pt}{\huge}
+
+
+\usepackage[backend=bibtex]{biblatex}
+\nocite{*}
+\addbibresource{citations.bib}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\usepackage{listings}
+\lstset{
+   language=C++,
+	numbers=left,
+	frame=single,
+	basicstyle=\small,
+	numbers=left,
+	numberstyle=\tiny,
+	numbersep=15pt,tabsize=4,
+	flexiblecolumns=true,
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen}, 
+	stringstyle=\color{mauve},
+	numberstyle=\tiny\color{gray},
+	breaklines=true,
+	breakatwhitespace=true,
+	morekeywords={*,num,String,var,library,get,set} ,
+}
+
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{./images/}}
+
+\begin{document}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\begin{titlepage}
+	\input{sections/0.1-titlepage.tex}
+\end{titlepage}
+
+\tableofcontents
+\end{document}
