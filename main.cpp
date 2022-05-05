@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
-#include "Library.h"
+#include "src/library/Library.h"
 
 #define MAX_PWD_ATTEMPTS 3
 #define MAX_PWD_LEN 128

@@ -6,8 +6,8 @@
 #define LIBRARITY_BUT_DUMBER_LIBRARY_H
 
 
-#include "Book.h"
-#include "User.h"
+#include "../book/Book.h"
+#include "../user/User.h"
 
 class Library {
 private:
