@@ -15,13 +15,13 @@ private:
 
     char *getPasswordHash() const;
 
-    static char *encryptPassword(char* unencryptedPassword);
+    static const char *encryptPassword(const char* unencryptedPassword);
 
     void copy(const User &other);
 
     void clear();
 public:
-    User(char *username, char *password);
+    User(const char *username = "", const char *password = "");
 
     User(const User &other);
 
@@ -35,9 +35,9 @@ public:
 
     char *getUsername() const;
 
-    void setUsername(char *newUsername);
+    void setUsername(const char *newUsername);
 
-    void setPassword(char *newPassword, bool isEncrypted = false);
+    void setPassword(const char *newPassword, bool isEncrypted = false);
 
 };
 

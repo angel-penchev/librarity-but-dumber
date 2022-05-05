@@ -5,7 +5,7 @@
 #include <cstring>
 #include "User.h"
 
-User::User(char *username, char *password) : username(), passwordHash() {
+User::User(const char *username, const char *password) : username(), passwordHash() {
     setUsername(username);
     setPassword(password);
 }
@@ -52,7 +52,7 @@ char *User::getUsername() const {
     return this->username;
 }
 
-void User::setUsername(char *newUsername) {
+void User::setUsername(const char *newUsername) {
     if (newUsername == nullptr) {
         return;
     }
@@ -62,12 +62,12 @@ void User::setUsername(char *newUsername) {
     std::strncpy(this->username, newUsername, std::strlen(newUsername) + 1);
 }
 
-void User::setPassword(char *newPassword, bool isEncrypted) {
+void User::setPassword(const char *newPassword, bool isEncrypted) {
     if (newPassword == nullptr) {
         return;
     }
 
-    char *encryptedPassword = isEncrypted ? encryptPassword(newPassword) : newPassword;
+    const char *encryptedPassword = isEncrypted ? encryptPassword(newPassword) : newPassword;
 
     delete[] this->passwordHash;
     this->passwordHash = new char[std::strlen(encryptedPassword) + 1];
@@ -78,7 +78,7 @@ char *User::getPasswordHash() const {
     return this->passwordHash;
 }
 
-char *User::encryptPassword(char *unencryptedPassword) {
+const char *User::encryptPassword(const char *unencryptedPassword) {
     return unencryptedPassword; //TODO: actually do some encryption
 }
 
