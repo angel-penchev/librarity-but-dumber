@@ -6,9 +6,23 @@
 #define LIBRARITY_BUT_DUMBER_LIBRARY_H
 
 
-class Library {
+#include "Book.h"
+#include "User.h"
 
+class Library {
+private:
+    Book *books;
+    User *users;
+    unsigned int booksCount = 0;
+    unsigned int usersCount = 0;
+public:
+    Library(std::ifstream& inBooks, std::ifstream& inUsers);
+
+    void addBook(const Book& book);
+
+    void addUser(const User& user);
 };
+
 
 
 #endif //LIBRARITY_BUT_DUMBER_LIBRARY_H

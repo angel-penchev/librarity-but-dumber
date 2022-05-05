@@ -66,6 +66,8 @@ int main() {
                 continue;
             }
 
+            library.addBook(Book());
+
             continue;
         }
 
