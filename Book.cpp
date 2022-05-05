@@ -18,37 +18,37 @@ Book::Book(const char *name, const char *author, const char *description, unsign
 }
 
 Book::Book(const Book &other) {
-    copy(other);
+    this->copy(other);
 }
 
 Book::Book(std::ifstream& in) {
     unsigned int nameLength;
     in.read((char*) &nameLength, sizeof(nameLength));
-    name = new char[nameLength];
+    this->name = new char[nameLength];
     in.read(this->name, nameLength);
 
     unsigned int authorLength;
     in.read((char*) &authorLength, sizeof(authorLength));
-    name = new char[authorLength];
+    this->author = new char[authorLength];
     in.read(this->author, authorLength);
 
     unsigned int descriptionLength;
     in.read((char*) &descriptionLength, sizeof(descriptionLength));
-    name = new char[descriptionLength];
+    this->description = new char[descriptionLength];
     in.read(this->description, descriptionLength);
 
     in.read((char *) &this->rating, sizeof(this->rating));
 
     unsigned int ISBNLength;
     in.read((char*) &ISBNLength, sizeof(ISBNLength));
-    name = new char[ISBNLength];
+    this->ISBN = new char[ISBNLength];
     in.read(this->ISBN, ISBNLength);
 }
 
 Book &Book::operator=(const Book &other) {
     if (this != &other) {
-        clear();
-        copy(other);
+        this->clear();
+        this->copy(other);
     }
     return *this;
 }
@@ -60,7 +60,7 @@ std::ostream &operator<<(std::ostream &os, const Book &book) {
 }
 
 Book::~Book() {
-    clear();
+    this->clear();
 }
 
 void Book::serialize(std::ofstream &out) {
@@ -84,7 +84,7 @@ void Book::serialize(std::ofstream &out) {
 }
 
 char *Book::getName() const {
-    return name;
+    return this->name;
 }
 
 void Book::setName(const char *newName) {
@@ -98,7 +98,7 @@ void Book::setName(const char *newName) {
 }
 
 char *Book::getAuthor() const {
-    return author;
+    return this->author;
 }
 
 void Book::setAuthor(const char *newAuthor) {
@@ -112,7 +112,7 @@ void Book::setAuthor(const char *newAuthor) {
 }
 
 char *Book::getDescription() const {
-    return description;
+    return this->description;
 }
 
 void Book::setDescription(const char *newDescription) {
@@ -130,11 +130,11 @@ unsigned int Book::getRating() const {
 }
 
 void Book::setRating(unsigned int newRating) {
-    Book::rating = newRating;
+    this->rating = newRating;
 }
 
 char *Book::getISBN() const {
-    return ISBN;
+    return this->ISBN;
 }
 
 void Book::setISBN(const char *newISBN) {
