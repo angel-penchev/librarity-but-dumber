@@ -6,6 +6,8 @@
 #define LIBRARITY_BUT_DUMBER_USER_H
 
 
+#include <fstream>
+
 class User {
 private:
     char *username;
@@ -23,9 +25,13 @@ public:
 
     User(const User &other);
 
+    User(std::ifstream& in);
+
     User& operator=(const User& other);
 
     virtual ~User();
+
+    void serialize(std::ofstream &out);
 
     char *getUsername() const;
 
