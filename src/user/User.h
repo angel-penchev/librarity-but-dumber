@@ -15,23 +15,24 @@ private:
 
     char *getPasswordHash() const;
 
-    static const char *encryptPassword(const char* unencryptedPassword);
+    static const char *encryptPassword(const char *unencryptedPassword);
 
     void copy(const User &other);
 
     void clear();
+
 public:
     User(const char *username = "", const char *password = "");
 
     User(const User &other);
 
-    User(std::ifstream& in);
+    User(std::istream &in);
 
-    User& operator=(const User& other);
+    User &operator=(const User &other);
 
     virtual ~User();
 
-    void serialize(std::ofstream &out);
+    void serialize(std::ostream &out);
 
     char *getUsername() const;
 

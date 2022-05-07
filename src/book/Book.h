@@ -28,13 +28,13 @@ public:
 
     Book(const Book &other);
 
-    Book(std::ifstream& in);
+    Book(std::istream &in);
 
     Book &operator=(const Book &other);
 
     virtual ~Book();
 
-    void serialize(std::ofstream &out);
+    void serialize(std::ostream &out);
 
     char *getName() const;
 

@@ -14,19 +14,19 @@ User::User(const User &other) {
     this->copy(other);
 }
 
-User::User(std::ifstream &in) {
+User::User(std::istream &in) {
     unsigned int usernameLength;
-    in.read((char*) &usernameLength, sizeof(usernameLength));
+    in.read((char *) &usernameLength, sizeof(usernameLength));
     this->username = new char[usernameLength];
     in.read(this->username, usernameLength);
 
     unsigned int passwordHashLength;
-    in.read((char*) &passwordHashLength, sizeof(passwordHashLength));
+    in.read((char *) &passwordHashLength, sizeof(passwordHashLength));
     this->passwordHash = new char[passwordHashLength];
     in.read(this->passwordHash, passwordHashLength);
 }
 
-User &User::operator=(const User& other) {
+User &User::operator=(const User &other) {
     if (this != &other) {
         this->clear();
         this->copy(other);
@@ -38,7 +38,7 @@ User::~User() {
     this->clear();
 }
 
-void User::serialize(std::ofstream &out) {
+void User::serialize(std::ostream &out) {
     unsigned int usernameLength = std::strlen(this->username) + 1;
     out.write((const char *) &usernameLength, sizeof(usernameLength));
     out.write((const char *) this->username, usernameLength);

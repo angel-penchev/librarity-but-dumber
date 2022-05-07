@@ -35,22 +35,19 @@ int main() {
         return 1;
     }
 
-    std::ifstream booksFile(BOOKS_FILE, std::ios::binary);
-    if (!booksFile){
-        std::cerr << "Couldn't open books database for reading!" << std::endl;
+    std::fstream booksFile(BOOKS_FILE, std::ios::binary | std::fstream::in | std::fstream::out);
+    if (!booksFile) {
+        std::cerr << "Couldn't open books database for reading and writing!\n";
         return 2;
     }
 
-    std::ifstream usersFile(USERS_FILE, std::ios::binary);
-    if (!usersFile){
-        std::cerr << "Couldn't open users database for reading!" << std::endl;
+    std::fstream usersFile(USERS_FILE, std::ios::binary | std::fstream::in | std::fstream::out);
+    if (!usersFile) {
+        std::cerr << "Couldn't open users database for reading and writing!\n";
         return 3;
     }
 
     Library library = Library(booksFile, usersFile);
-
-    booksFile.close();
-    usersFile.close();
 
     char command[MAX_CMD_LEN];
     while (std::cout << "> " && std::cin >> command) {
@@ -66,7 +63,7 @@ int main() {
                 std::cerr << "ERR: Book not found!\n";
                 continue;
             }
-            std::cout << book;
+            std::cout << *book;
             continue;
         }
 
@@ -76,7 +73,8 @@ int main() {
                 continue;
             }
 
-            library.addBook(Book());
+            library.addBook(Book("gosho", "losho", "never gonna", 3, "00-00"));
+            library.updateBooksFile();
 
             continue;
         }
@@ -88,6 +86,7 @@ int main() {
             }
 
             library.removeBook("gosho", "losho", "00-00", "never gonna");
+            library.updateBooksFile();
 
             continue;
         }
@@ -100,6 +99,9 @@ int main() {
             break;
         }
     }
+
+    booksFile.close();
+    usersFile.close();
 
     return 0;
 }

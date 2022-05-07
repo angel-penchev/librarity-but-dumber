@@ -6,18 +6,23 @@
 #include <cstring>
 #include "Library.h"
 
-Library::Library(std::ifstream& inBooks, std::ifstream& inUsers) : books(new Book[0]), users(new User[0]) {
-    while(!inBooks.eof()) {
-        this->addBook(Book(inBooks));
+Library::Library(std::fstream &booksFile, std::fstream &usersFile) : books(new Book[0]), users(new User[0]),
+                                                                     booksFile(booksFile), usersFile(usersFile) {
+    unsigned int booksCountFromFile;
+    this->booksFile.read((char *) &booksCountFromFile, sizeof(booksCountFromFile));
+    for (unsigned int i = 0; i < this->booksCount; i++) {
+        this->addBook(Book(booksFile));
     }
 
-    while(!inUsers.eof()) {
-        this->addUser(User(inUsers));
+    unsigned int usersCountFromFile;
+    this->usersFile.read((char *) &usersCountFromFile, sizeof(usersCountFromFile));
+    for (unsigned int i = 0; i < this->usersCount; i++) {
+        this->addUser(User(usersFile));
     }
 }
 
-void Library::addBook(const Book& book) {
-    Book* newArr = new Book[this->booksCount + 1];
+void Library::addBook(const Book &book) {
+    Book *newArr = new Book[this->booksCount + 1];
 
     for (unsigned int i = 0; i < this->booksCount; i++) {
         newArr[i] = this->books[i];
@@ -28,8 +33,8 @@ void Library::addBook(const Book& book) {
     this->books = newArr;
 }
 
-void Library::addUser(const User& user) {
-    User* newArr = new User[this->usersCount + 1];
+void Library::addUser(const User &user) {
+    User *newArr = new User[this->usersCount + 1];
 
     for (unsigned int i = 0; i < this->usersCount; i++) {
         newArr[i] = this->users[i];
@@ -40,7 +45,7 @@ void Library::addUser(const User& user) {
     this->users = newArr;
 }
 
-Book* Library::findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) {
+Book *Library::findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const {
     int bookIndex = this->findBookIndex(name, author, ISBN, descriptionSnippet);
 
     if (bookIndex < 0) {
@@ -57,7 +62,7 @@ bool Library::removeBook(const char *name, const char *author, const char *ISBN,
         return false;
     }
 
-    Book* newArr = new Book[--this->booksCount];
+    Book *newArr = new Book[--this->booksCount];
 
     for (unsigned int i = 0; i < bookIndex; i++) {
         newArr[i] = this->books[i];
@@ -83,13 +88,14 @@ void Library::sortBooks() {
     }
 }
 
-void Library::printBooks() {
+void Library::printBooks() const {
     for (unsigned int i = 0; i < this->booksCount; i++) {
         std::cout << this->books[i];
     }
 }
 
-int Library::findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) {
+int
+Library::findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const {
     for (unsigned int i = 0; i < this->booksCount; i++) {
         if (!std::strcmp(this->books[i].getName(), name) &&
             !std::strcmp(this->books[i].getAuthor(), author) &&
@@ -100,4 +106,20 @@ int Library::findBookIndex(const char *name, const char *author, const char *ISB
     }
 
     return -1;
+}
+
+void Library::updateBooksFile() const {
+    this->booksFile.clear();
+    this->booksFile.write((const char *) &this->booksCount, sizeof(this->booksCount));
+    for (unsigned int i = 0; i < this->booksCount; i++) {
+        this->books[i].serialize(this->booksFile);
+    }
+}
+
+void Library::updateUsersFile() const {
+    this->booksFile.clear();
+    this->usersFile.write((const char *) &this->usersCount, sizeof(this->usersCount));
+    for (unsigned int i = 0; i < this->usersCount; i++) {
+        this->users[i].serialize(this->usersFile);
+    }
 }

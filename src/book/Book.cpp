@@ -21,26 +21,26 @@ Book::Book(const Book &other) {
     this->copy(other);
 }
 
-Book::Book(std::ifstream& in) {
+Book::Book(std::istream &in) {
     unsigned int nameLength;
-    in.read((char*) &nameLength, sizeof(nameLength));
+    in.read((char *) &nameLength, sizeof(nameLength));
     this->name = new char[nameLength];
     in.read(this->name, nameLength);
 
     unsigned int authorLength;
-    in.read((char*) &authorLength, sizeof(authorLength));
+    in.read((char *) &authorLength, sizeof(authorLength));
     this->author = new char[authorLength];
     in.read(this->author, authorLength);
 
     unsigned int descriptionLength;
-    in.read((char*) &descriptionLength, sizeof(descriptionLength));
+    in.read((char *) &descriptionLength, sizeof(descriptionLength));
     this->description = new char[descriptionLength];
     in.read(this->description, descriptionLength);
 
     in.read((char *) &this->rating, sizeof(this->rating));
 
     unsigned int ISBNLength;
-    in.read((char*) &ISBNLength, sizeof(ISBNLength));
+    in.read((char *) &ISBNLength, sizeof(ISBNLength));
     this->ISBN = new char[ISBNLength];
     in.read(this->ISBN, ISBNLength);
 }
@@ -63,7 +63,7 @@ Book::~Book() {
     this->clear();
 }
 
-void Book::serialize(std::ofstream &out) {
+void Book::serialize(std::ostream &out) {
     unsigned int nameLength = std::strlen(this->name) + 1;
     out.write((const char *) &nameLength, sizeof(nameLength));
     out.write((const char *) this->name, nameLength);
