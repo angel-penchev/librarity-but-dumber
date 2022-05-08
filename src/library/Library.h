@@ -13,15 +13,15 @@ class Library {
 private:
     Book *books;
     User *users;
-    std::fstream &booksFile;
-    std::fstream &usersFile;
+    char *booksFilename;
+    char *usersFilename;
     unsigned int booksCount = 0;
     unsigned int usersCount = 0;
 
     int findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const;
 
 public:
-    Library(std::fstream &booksFile, std::fstream &usersFile);
+    Library(const char *booksFilename, const char *usersFilename);
 
     virtual ~Library();
 
@@ -40,6 +40,14 @@ public:
     void updateBooksFile() const;
 
     void updateUsersFile() const;
+
+    char *getBooksFilename() const;
+
+    void setBooksFilename(const char *newBooksFilename);
+
+    char *getUsersFilename() const;
+
+    void setUsersFilename(const char *newUsersFilename);
 };
 
 
