@@ -10,15 +10,23 @@ Library::Library(std::fstream &booksFile, std::fstream &usersFile) : books(new B
                                                                      booksFile(booksFile), usersFile(usersFile) {
     unsigned int booksCountFromFile;
     this->booksFile.read((char *) &booksCountFromFile, sizeof(booksCountFromFile));
-    for (unsigned int i = 0; i < this->booksCount; i++) {
+    for (unsigned int i = 0; i < booksCountFromFile; i++) {
         this->addBook(Book(booksFile));
     }
 
     unsigned int usersCountFromFile;
     this->usersFile.read((char *) &usersCountFromFile, sizeof(usersCountFromFile));
-    for (unsigned int i = 0; i < this->usersCount; i++) {
+    for (unsigned int i = 0; i < booksCountFromFile; i++) {
         this->addUser(User(usersFile));
     }
+}
+
+Library::~Library() {
+    delete[] this->books;
+    this->books = nullptr;
+
+    delete[] this->users;
+    this->users = nullptr;
 }
 
 void Library::addBook(const Book &book) {

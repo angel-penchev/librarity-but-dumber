@@ -23,6 +23,8 @@ private:
 public:
     Library(std::fstream &booksFile, std::fstream &usersFile);
 
+    virtual ~Library();
+
     void addBook(const Book &book);
 
     void addUser(const User &user);
