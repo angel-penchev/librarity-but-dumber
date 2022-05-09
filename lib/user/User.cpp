@@ -67,7 +67,7 @@ void User::setPassword(const char *newPassword, bool isEncrypted) {
         return;
     }
 
-    const char *encryptedPassword = isEncrypted ? encryptPassword(newPassword) : newPassword;
+    const char *encryptedPassword = !isEncrypted ? encryptPassword(newPassword) : newPassword;
 
     delete[] this->passwordHash;
     this->passwordHash = new char[std::strlen(encryptedPassword) + 1];
