@@ -125,12 +125,14 @@ void Library::printBooks() const {
     }
 }
 
-void Library::printBookContent(Book *book, ReadingMode readingMode) {
+void Library::printBookContent(Book *book, ReadingMode readingMode, unsigned int linesCount) {
     switch (readingMode) {
         case WHOLE_BOOK:
             book->printAllContents();
             break;
         case PAGES:
+            book->printPaginatedContents(linesCount);
+            break;
         case SENTENCES:
         default:
             std::cerr << "ERR: Invalid reading mode!\n";

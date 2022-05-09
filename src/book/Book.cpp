@@ -184,6 +184,27 @@ void Book::printAllContents() const {
     booksContentsFile.close();
 }
 
+void Book::printPaginatedContents(unsigned int linesCount) const {
+    std::ifstream booksContentsFile(this->filename, std::ios::in);
+    if (!booksContentsFile) {
+        std::cerr << "ERR: Book content file could not be opened for reading!\n";
+        return;
+    }
+
+    while (!booksContentsFile.eof()) {
+        for (unsigned int i = 0; i < linesCount; i++) {
+            char line[MAX_LINE_LEN];
+            booksContentsFile.getline(line, MAX_LINE_LEN);
+            std::cout << i;
+        }
+
+        std::cout << "\n[Press Enter to Continue]\n";
+        std::cin.ignore();
+    }
+
+    booksContentsFile.close();
+}
+
 void Book::copy(const Book &other) {
     this->setName(other.getName());
     this->setAuthor(other.getAuthor());

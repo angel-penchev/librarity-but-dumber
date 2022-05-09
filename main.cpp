@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstring>
-#include <fstream>
 #include "src/library/Library.h"
 
 #define MAX_PWD_ATTEMPTS 3
@@ -41,7 +40,7 @@ int main() {
     char command[MAX_CMD_LEN];
     while (std::cout << "|> " && std::cin >> command && std::cin.ignore()) {
         if (!std::strcmp(command, "sort") || !std::strcmp(command, "view")) {
-            library.sortBooks();
+//            library.sortBooks();
             library.printBooks();
             continue;
         }
@@ -158,6 +157,12 @@ int main() {
                 continue;
             }
 
+            unsigned int linesCount;
+            if ((ReadingMode) modeNumber == PAGES) {
+                std::cout << "|-> Lines per page: ";
+                std::cin >> linesCount;
+            }
+
             Book *book = library.findBook(name, author, ISBN, "");
             if (book == nullptr) {
                 std::cerr << "ERR: Book not found!\n";
@@ -165,7 +170,7 @@ int main() {
             }
 
             std::cout << *book << '\n';
-            Library::printBookContent(book, (ReadingMode) modeNumber);
+            Library::printBookContent(book, (ReadingMode) modeNumber, linesCount);
 
             continue;
         }

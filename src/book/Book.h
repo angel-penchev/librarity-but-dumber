@@ -8,6 +8,7 @@
 #include <fstream>
 #include <ostream>
 
+#define MAX_LINE_LEN 8196
 
 class Book {
 private:
@@ -62,6 +63,8 @@ public:
     void setFilename(const char *newFilename);
 
     void printAllContents() const;
+
+    void printPaginatedContents(unsigned int linesCount) const;
 
     friend std::ostream &operator<<(std::ostream &os, const Book &book);
 };

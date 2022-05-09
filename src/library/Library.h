@@ -38,7 +38,7 @@ public:
 
     void printBooks() const;
 
-    static void printBookContent(Book *book, ReadingMode readingMode);
+    static void printBookContent(Book *book, ReadingMode readingMode, unsigned int linesCount = 5);
 
     void updateBooksFile() const;
 
