@@ -8,6 +8,7 @@
 
 #include "../book/Book.h"
 #include "../user/User.h"
+#include "../enums/ReadingMode.h"
 
 class Library {
 private:
@@ -36,6 +37,8 @@ public:
     void sortBooks();
 
     void printBooks() const;
+
+    static void printBookContent(Book *book, ReadingMode readingMode);
 
     void updateBooksFile() const;
 

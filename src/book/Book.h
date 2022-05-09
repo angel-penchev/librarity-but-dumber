@@ -16,6 +16,7 @@ private:
     char *description;
     unsigned int rating;
     char *ISBN;
+    char *filename;
 
     void copy(const Book &other);
 
@@ -24,7 +25,7 @@ private:
 public:
     Book(const char *name = "Untitled", const char *author = "Unknown author", const char *description = "",
          unsigned int rating = 0,
-         const char *ISBN = "978-0-00000");
+         const char *ISBN = "978-0-00000", const char *filename = "");
 
     Book(const Book &other);
 
@@ -55,6 +56,12 @@ public:
     char *getISBN() const;
 
     void setISBN(const char *newISBN);
+
+    char *getFilename() const;
+
+    void setFilename(const char *newFilename);
+
+    void printAllContents() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Book &book);
 };

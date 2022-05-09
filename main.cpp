@@ -164,7 +164,8 @@ int main() {
                 continue;
             }
 
-            std::cout << *book;
+            std::cout << *book << '\n';
+            Library::printBookContent(book, (ReadingMode) modeNumber);
 
             continue;
         }

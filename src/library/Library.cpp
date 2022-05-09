@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include "Library.h"
+#include "../enums/ReadingMode.h"
 
 Library::Library(const char *booksFilename, const char *usersFilename) : books(new Book[0]), users(new User[0]),
                                                                          booksFilename(), usersFilename() {
@@ -121,6 +122,19 @@ void Library::sortBooks() {
 void Library::printBooks() const {
     for (unsigned int i = 0; i < this->booksCount; i++) {
         std::cout << this->books[i];
+    }
+}
+
+void Library::printBookContent(Book *book, ReadingMode readingMode) {
+    switch (readingMode) {
+        case WHOLE_BOOK:
+            book->printAllContents();
+            break;
+        case PAGES:
+        case SENTENCES:
+        default:
+            std::cerr << "ERR: Invalid reading mode!\n";
+            break;
     }
 }
 

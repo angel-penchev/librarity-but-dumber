@@ -3,18 +3,22 @@
 //
 
 #include <cstring>
+#include <iostream>
 #include "Book.h"
 
-Book::Book(const char *name, const char *author, const char *description, unsigned int rating, const char *ISBN)
+Book::Book(const char *name, const char *author, const char *description, unsigned int rating, const char *ISBN,
+           const char *filename)
         : name(),
           author(),
           description(),
           rating(rating),
-          ISBN() {
+          ISBN(),
+          filename() {
     this->setName(name);
     this->setAuthor(author);
     this->setDescription(description);
     this->setISBN(ISBN);
+    this->setFilename(filename);
 }
 
 Book::Book(const Book &other) {
@@ -43,6 +47,11 @@ Book::Book(std::istream &in) {
     in.read((char *) &ISBNLength, sizeof(ISBNLength));
     this->ISBN = new char[ISBNLength];
     in.read(this->ISBN, ISBNLength);
+
+    unsigned int filenameLength;
+    in.read((char *) &filenameLength, sizeof(filenameLength));
+    this->filename = new char[filenameLength];
+    in.read(this->filename, filenameLength);
 }
 
 Book &Book::operator=(const Book &other) {
@@ -81,6 +90,10 @@ void Book::serialize(std::ostream &out) {
     unsigned int ISBNLength = std::strlen(this->ISBN) + 1;
     out.write((const char *) &ISBNLength, sizeof(ISBNLength));
     out.write((const char *) this->ISBN, ISBNLength);
+
+    unsigned int filenameLength = std::strlen(this->filename) + 1;
+    out.write((const char *) &filenameLength, sizeof(filenameLength));
+    out.write((const char *) this->filename, filenameLength);
 }
 
 char *Book::getName() const {
@@ -147,12 +160,37 @@ void Book::setISBN(const char *newISBN) {
     std::strncpy(this->ISBN, newISBN, std::strlen(newISBN) + 1);
 }
 
+char *Book::getFilename() const {
+    return filename;
+}
+
+void Book::setFilename(const char *newFilename) {
+    if (newFilename == nullptr) {
+        return;
+    }
+
+    delete[] this->filename;
+    this->filename = new char[std::strlen(newFilename) + 1];
+    std::strncpy(this->filename, newFilename, std::strlen(newFilename) + 1);
+}
+
+void Book::printAllContents() const {
+    std::ifstream booksContentsFile(this->filename, std::ios::in);
+    if (!booksContentsFile) {
+        std::cerr << "ERR: Book content file could not be opened for reading!\n";
+        return;
+    }
+    std::cout << booksContentsFile;
+    booksContentsFile.close();
+}
+
 void Book::copy(const Book &other) {
     this->setName(other.getName());
     this->setAuthor(other.getAuthor());
     this->setDescription(other.getDescription());
     this->setRating(other.getRating());
     this->setISBN(other.getISBN());
+    this->setFilename(other.getFilename());
 }
 
 void Book::clear() {
@@ -167,4 +205,7 @@ void Book::clear() {
 
     delete[] this->ISBN;
     this->ISBN = nullptr;
+
+    delete[] this->filename;
+    this->filename = nullptr;
 }
