@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <sstream>
 #include "library/Library.h"
 
 #define MAX_PWD_ATTEMPTS 3
@@ -38,6 +39,8 @@ int main() {
     Library library = Library(BOOKS_FILENAME, USERS_FILENAME);
 
     char command[MAX_CMD_LEN];
+    std::istream in2;
+    std::cin << in2;
     while (std::cout << "|> " && std::cin >> command && std::cin.ignore()) {
         if (!std::strcmp(command, "sort") || !std::strcmp(command, "view")) {
             library.sortBooks();

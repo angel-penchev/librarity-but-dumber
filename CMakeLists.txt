@@ -10,3 +10,5 @@ include_directories(lib)
 add_subdirectory(lib)
 
 target_link_libraries(librarity_but_dumber_run librarity_but_dumber_lib)
+
+add_subdirectory(test)
