@@ -83,8 +83,8 @@ Book *Library::findBook(const char *name, const char *author, const char *ISBN, 
     return &this->books[bookIndex];
 }
 
-bool Library::removeBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) {
-    int bookIndex = this->findBookIndex(name, author, ISBN, descriptionSnippet);
+bool Library::removeBook(const char *name, const char *author, const char *ISBN) {
+    int bookIndex = this->findBookIndex(name, author, ISBN, "");
 
     if (bookIndex < 0) {
         return false;
@@ -102,6 +102,8 @@ bool Library::removeBook(const char *name, const char *author, const char *ISBN,
 
     delete[] this->books;
     this->books = newArr;
+
+    return true;
 }
 
 void Library::sortBooks() {
