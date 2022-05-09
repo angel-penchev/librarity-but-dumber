@@ -13,7 +13,7 @@ Library::Library(const char *booksFilename, const char *usersFilename) : books(n
     this->setUsersFilename(usersFilename);
 
     // Read books from the books binary if it exists
-    std::fstream booksFile(this->booksFilename, std::ios::binary | std::ios::in);
+    std::ifstream booksFile(this->booksFilename, std::ios::binary | std::ios::in);
     if (booksFile) {
         unsigned int booksCountFromFile;
         booksFile.read((char *) &booksCountFromFile, sizeof(booksCountFromFile));
@@ -24,7 +24,7 @@ Library::Library(const char *booksFilename, const char *usersFilename) : books(n
     booksFile.close();
 
     // Read users from the books binary if it exists
-    std::fstream usersFile(usersFilename, std::ios::binary | std::ios::in);
+    std::ifstream usersFile(usersFilename, std::ios::binary | std::ios::in);
     if (usersFile) {
         unsigned int usersCountFromFile;
         usersFile.read((char *) &usersCountFromFile, sizeof(usersCountFromFile));
@@ -122,20 +122,6 @@ void Library::printBooks() const {
     }
 }
 
-int
-Library::findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const {
-    for (unsigned int i = 0; i < this->booksCount; i++) {
-        if (!std::strcmp(this->books[i].getName(), name) &&
-            !std::strcmp(this->books[i].getAuthor(), author) &&
-            !strcmp(this->books[i].getISBN(), ISBN) &&
-            std::strstr(this->books[i].getDescription(), descriptionSnippet) != nullptr) {
-            return (int) i;
-        }
-    }
-
-    return -1;
-}
-
 void Library::updateBooksFile() const {
     std::ofstream booksFile(this->booksFilename, std::ios::binary | std::ios::out | std::ios::trunc);
     booksFile.write((const char *) &this->booksCount, sizeof(this->booksCount));
@@ -180,4 +166,18 @@ void Library::setUsersFilename(const char *newUsersFilename) {
     delete[] this->usersFilename;
     this->usersFilename = new char[std::strlen(newUsersFilename) + 1];
     std::strncpy(this->usersFilename, newUsersFilename, std::strlen(newUsersFilename) + 1);
+}
+
+int
+Library::findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const {
+    for (unsigned int i = 0; i < this->booksCount; i++) {
+        if (!std::strcmp(this->books[i].getName(), name) &&
+            !std::strcmp(this->books[i].getAuthor(), author) &&
+            !strcmp(this->books[i].getISBN(), ISBN) &&
+            std::strstr(this->books[i].getDescription(), descriptionSnippet) != nullptr) {
+            return (int) i;
+        }
+    }
+
+    return -1;
 }
