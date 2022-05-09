@@ -175,7 +175,7 @@ void Book::setFilename(const char *newFilename) {
 }
 
 void Book::printAllContents() const {
-    std::ifstream booksContentsFile(this->filename, std::ios::in);
+    std::ifstream booksContentsFile(this->filename);
     if (!booksContentsFile) {
         std::cerr << "ERR: Book content file could not be opened for reading!\n";
         return;
@@ -185,7 +185,7 @@ void Book::printAllContents() const {
 }
 
 void Book::printPaginatedContents(unsigned int linesCount) const {
-    std::ifstream booksContentsFile(this->filename, std::ios::in);
+    std::ifstream booksContentsFile(this->filename);
     if (!booksContentsFile) {
         std::cerr << "ERR: Book content file could not be opened for reading!\n";
         return;
@@ -193,12 +193,29 @@ void Book::printPaginatedContents(unsigned int linesCount) const {
 
     while (!booksContentsFile.eof()) {
         for (unsigned int i = 0; i < linesCount; i++) {
-            char line[MAX_LINE_LEN];
+            char line[MAX_LINE_LEN + 1];
             booksContentsFile.getline(line, MAX_LINE_LEN);
-            std::cout << i;
+            std::cout << line << '\n';
         }
 
-        std::cout << "\n[Press Enter to Continue]\n";
+        std::cout << "\n-- press enter to continue --\n";
+        std::cin.ignore();
+    }
+
+    booksContentsFile.close();
+}
+
+void Book::printSentenceSeparatedContents() const {
+    std::ifstream booksContentsFile(this->filename, std::ios::in);
+    if (!booksContentsFile) {
+        std::cerr << "ERR: Book content file could not be opened for reading!\n";
+        return;
+    }
+
+    while (!booksContentsFile.eof()) {
+        char line[MAX_LINE_LEN];
+        booksContentsFile.getline(line, MAX_LINE_LEN, '.');
+        std::cout << line << "\n\n-- press enter to continue --\n";
         std::cin.ignore();
     }
 

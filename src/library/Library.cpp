@@ -134,6 +134,8 @@ void Library::printBookContent(Book *book, ReadingMode readingMode, unsigned int
             book->printPaginatedContents(linesCount);
             break;
         case SENTENCES:
+            book->printSentenceSeparatedContents();
+            break;
         default:
             std::cerr << "ERR: Invalid reading mode!\n";
             break;

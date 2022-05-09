@@ -40,7 +40,7 @@ int main() {
     char command[MAX_CMD_LEN];
     while (std::cout << "|> " && std::cin >> command && std::cin.ignore()) {
         if (!std::strcmp(command, "sort") || !std::strcmp(command, "view")) {
-//            library.sortBooks();
+            library.sortBooks();
             library.printBooks();
             continue;
         }
@@ -151,6 +151,7 @@ int main() {
             unsigned int modeNumber;
             std::cout << "|-> Reading mode (0: whole book, 1: pages, 2: sentences): ";
             std::cin >> modeNumber;
+            std::cin.ignore();
 
             if (modeNumber > 2) {
                 std::cerr << "ERR: Invalid mode number!\n";
@@ -161,6 +162,7 @@ int main() {
             if ((ReadingMode) modeNumber == PAGES) {
                 std::cout << "|-> Lines per page: ";
                 std::cin >> linesCount;
+                std::cin.ignore();
             }
 
             Book *book = library.findBook(name, author, ISBN, "");

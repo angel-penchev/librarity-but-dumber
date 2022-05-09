@@ -66,6 +66,8 @@ public:
 
     void printPaginatedContents(unsigned int linesCount) const;
 
+    void printSentenceSeparatedContents() const;
+
     friend std::ostream &operator<<(std::ostream &os, const Book &book);
 };
 
