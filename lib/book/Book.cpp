@@ -155,6 +155,40 @@ void Book::setISBN(const char *newISBN) {
         return;
     }
 
+    // ISBN has a valid length
+    if (std::strlen(newISBN) != 13) {
+        std::cerr << "ERR: Invalid ISBN length!\n";
+        return;
+    }
+
+    // ISBN has a valid GS1 prefix (begins with 978 or 979)
+    if (std::strncmp(newISBN, "979", 3) != 0 && std::strncmp(newISBN, "978", 3) != 0) {
+        std::cerr << "ERR: Invalid ISBN GS1 prefix!\n";
+        return;
+    }
+
+    // ISBN checksumCharacter is valid + ISBN only contains numbers
+    int sum = 0;
+    for (int i = 3; i < 12; i++) {
+        int value = newISBN[i] - '0';
+        if (0 > value || 9 < value) {
+            std::cerr << "ERR: Invalid characters in ISBN!\n";
+            return;
+        }
+        sum += (value * (10 - i));
+    }
+
+    char checksumCharacter = newISBN[12];
+    if (checksumCharacter != 'X' && (checksumCharacter < '0' || checksumCharacter > '9')) {
+        std::cerr << "ERR: Invalid ISBN checksum character!\n";
+        return;
+    }
+
+    if ((sum + checksumCharacter == 'X' ? 10 : checksumCharacter - '0') % 11 != 0) {
+        std::cerr << "ERR: Invalid ISBN checksum!\n";
+        return;
+    }
+
     delete[] this->ISBN;
     this->ISBN = new char[std::strlen(newISBN) + 1];
     std::strncpy(this->ISBN, newISBN, std::strlen(newISBN) + 1);
