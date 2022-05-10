@@ -49,6 +49,16 @@ TEST_F(BookFixture, ShouldExposeAConstructorAcceptingParameterValues) {
     ASSERT_STREQ(book->getFilename(), filename);
 }
 
+TEST_F(BookFixture, ShouldExposeACopyConstructor) {
+    Book copyOfBook = Book(*book);
+    ASSERT_STREQ(copyOfBook.getName(), book->getName());
+    ASSERT_STREQ(copyOfBook.getAuthor(), book->getAuthor());
+    ASSERT_STREQ(copyOfBook.getDescription(), book->getDescription());
+    ASSERT_EQ(copyOfBook.getRating(), book->getRating());
+    ASSERT_STREQ(copyOfBook.getISBN(), book->getISBN());
+    ASSERT_STREQ(copyOfBook.getFilename(), book->getFilename());
+}
+
 TEST_F(BookFixture, ShouldExposeABinaryFileConstructor) {
     // Construct book from binary file
     std::ifstream inFile(inBookFilepath, std::ios::binary | std::ios::in);
