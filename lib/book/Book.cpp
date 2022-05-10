@@ -186,7 +186,7 @@ void Book::setISBN(const char *newISBN) {
         return;
     }
 
-    if (sum % 10 != 10 - (checksumCharacter - '0')) {
+    if (sum % 10 != (checksumCharacter != '0' ? 10 - (checksumCharacter - '0') : 0)) {
         std::cerr << "ERR: Invalid ISBN checksum!\n";
         return;
     }
