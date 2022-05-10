@@ -11,4 +11,6 @@ add_subdirectory(lib)
 
 target_link_libraries(librarity_but_dumber_run librarity_but_dumber_lib)
 
+enable_testing()
+
 add_subdirectory(test)
