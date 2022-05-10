@@ -89,7 +89,7 @@ int main() {
             std::cout << "|-> Description: ";
             std::cin.getline(description, MAX_STR_LEN);
 
-            int rating;
+            double rating;
             std::cout << "|-> Rating: ";
             std::cin >> rating;
             std::cin.ignore();

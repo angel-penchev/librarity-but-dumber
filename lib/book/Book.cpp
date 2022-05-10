@@ -6,7 +6,7 @@
 #include <iostream>
 #include "Book.h"
 
-Book::Book(const char *name, const char *author, const char *description, unsigned int rating, const char *ISBN,
+Book::Book(const char *name, const char *author, const char *description, double rating, const char *ISBN,
            const char *filename)
         : name(),
           author(),
@@ -135,11 +135,16 @@ void Book::setDescription(const char *newDescription) {
     std::strncpy(this->description, newDescription, std::strlen(newDescription) + 1);
 }
 
-unsigned int Book::getRating() const {
+double Book::getRating() const {
     return rating;
 }
 
-void Book::setRating(unsigned int newRating) {
+void Book::setRating(double newRating) {
+    if (newRating < 0.0 || newRating > 10.0) {
+        std::cerr << "ERR: Invalid rating! Rating should be between 0.0 and 10.0!\n";
+        return;
+    }
+
     this->rating = newRating;
 }
 
@@ -172,7 +177,6 @@ void Book::setISBN(const char *newISBN) {
             std::cerr << "ERR: Invalid characters in ISBN!\n";
             return;
         }
-        std::cout << value * (i % 2 == 0 ? 1 : 3) << '\n';
         sum += value * (i % 2 == 0 ? 1 : 3);
     }
 
@@ -181,8 +185,6 @@ void Book::setISBN(const char *newISBN) {
         std::cerr << "ERR: Invalid ISBN checksum character!\n";
         return;
     }
-
-    std::cout << "sum: " << sum % 10 << '\n' << "checksum bit: " << 10 - (checksumCharacter - '0') << '\n';
 
     if (sum % 10 != 10 - (checksumCharacter - '0')) {
         std::cerr << "ERR: Invalid ISBN checksum!\n";

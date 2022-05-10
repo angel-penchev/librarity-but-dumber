@@ -16,7 +16,7 @@ protected:
     const char *name = "gosho";
     const char *author = "losho";
     const char *description = "never gonna give you up";
-    const unsigned int rating = 8;
+    const double rating = 8.8;
     const char *ISBN = "9780000000002";
     const char *filename = "gosho.txt";
 
@@ -113,7 +113,7 @@ TEST_F(BookFixture, ShouldProvideAMethodForSerilizationToABinaryFile) {
     ASSERT_STREQ(resultDescription, book->getDescription());
     delete[] resultDescription;
 
-    unsigned int resultRating;
+    double resultRating;
     resultFile.read((char *) &resultRating, sizeof(resultRating));
 
     unsigned int resultISBNLength;

@@ -15,7 +15,7 @@ private:
     char *name;
     char *author;
     char *description;
-    unsigned int rating;
+    double rating;
     char *ISBN;
     char *filename;
 
@@ -25,8 +25,7 @@ private:
 
 public:
     Book(const char *name = "Untitled", const char *author = "Unknown author", const char *description = "",
-         unsigned int rating = 0,
-         const char *ISBN = "9780000000002", const char *filename = "");
+         double rating = 0, const char *ISBN = "9780000000002", const char *filename = "");
 
     Book(const Book &other);
 
@@ -50,9 +49,9 @@ public:
 
     void setDescription(const char *newDescription);
 
-    unsigned int getRating() const;
+    double getRating() const;
 
-    void setRating(unsigned int newRating);
+    void setRating(double newRating);
 
     char *getISBN() const;
 
