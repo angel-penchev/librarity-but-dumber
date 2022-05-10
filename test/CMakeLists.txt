@@ -13,6 +13,8 @@ add_executable(librarity_but_dumber_tests_run ${TEST_FILES})
 target_link_libraries(librarity_but_dumber_tests_run librarity_but_dumber_lib)
 target_link_libraries(librarity_but_dumber_tests_run gtest gtest_main)
 
+add_definitions("-DPATH_TO_FIXTURES=\"${CMAKE_SOURCE_DIR}/test/fixtures/\"")
+
 include(GoogleTest)
 gtest_discover_tests(librarity_but_dumber_tests_run
         PROPERTIES
