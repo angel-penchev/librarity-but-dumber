@@ -17,7 +17,7 @@ protected:
     const char *author = "losho";
     const char *description = "never gonna give you up";
     const unsigned int rating = 8;
-    const char *ISBN = "9780000000000";
+    const char *ISBN = "9780000000002";
     const char *filename = "gosho.txt";
 
     void SetUp() override {
@@ -36,7 +36,7 @@ TEST(BookTestSuite, ShouldExposeADefaultConstructor) {
     ASSERT_STREQ(book.getAuthor(), "Unknown author");
     ASSERT_STREQ(book.getDescription(), "");
     ASSERT_EQ(book.getRating(), 0);
-    ASSERT_STREQ(book.getISBN(), "9780000000000");
+    ASSERT_STREQ(book.getISBN(), "9780000000002");
     ASSERT_STREQ(book.getFilename(), "");
 }
 

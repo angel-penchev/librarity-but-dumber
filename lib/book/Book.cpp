@@ -105,7 +105,6 @@ void Book::setName(const char *newName) {
         return;
     }
 
-    delete[] this->name;
     this->name = new char[std::strlen(newName) + 1];
     std::strncpy(this->name, newName, std::strlen(newName) + 1);
 }
@@ -119,7 +118,6 @@ void Book::setAuthor(const char *newAuthor) {
         return;
     }
 
-    delete[] this->author;
     this->author = new char[std::strlen(newAuthor) + 1];
     std::strncpy(this->author, newAuthor, std::strlen(newAuthor) + 1);
 }
@@ -133,7 +131,6 @@ void Book::setDescription(const char *newDescription) {
         return;
     }
 
-    delete[] this->description;
     this->description = new char[std::strlen(newDescription) + 1];
     std::strncpy(this->description, newDescription, std::strlen(newDescription) + 1);
 }
@@ -168,28 +165,30 @@ void Book::setISBN(const char *newISBN) {
     }
 
     // ISBN checksumCharacter is valid + ISBN only contains numbers
-    int sum = 0;
-    for (int i = 3; i < 12; i++) {
-        int value = newISBN[i] - '0';
-        if (0 > value || 9 < value) {
+    unsigned int sum = 0;
+    for (unsigned int i = 0; i < 12; i++) {
+        unsigned int value = newISBN[i] - '0';
+        if (value > 9) {
             std::cerr << "ERR: Invalid characters in ISBN!\n";
             return;
         }
-        sum += (value * (10 - i));
+        std::cout << value * (i % 2 == 0 ? 1 : 3) << '\n';
+        sum += value * (i % 2 == 0 ? 1 : 3);
     }
 
     char checksumCharacter = newISBN[12];
-    if (checksumCharacter != 'X' && (checksumCharacter < '0' || checksumCharacter > '9')) {
+    if (checksumCharacter < '0' || checksumCharacter > '9') {
         std::cerr << "ERR: Invalid ISBN checksum character!\n";
         return;
     }
 
-    if ((sum + checksumCharacter == 'X' ? 10 : checksumCharacter - '0') % 11 != 0) {
+    std::cout << "sum: " << sum % 10 << '\n' << "checksum bit: " << 10 - (checksumCharacter - '0') << '\n';
+
+    if (sum % 10 != 10 - (checksumCharacter - '0')) {
         std::cerr << "ERR: Invalid ISBN checksum!\n";
         return;
     }
 
-    delete[] this->ISBN;
     this->ISBN = new char[std::strlen(newISBN) + 1];
     std::strncpy(this->ISBN, newISBN, std::strlen(newISBN) + 1);
 }
@@ -203,7 +202,6 @@ void Book::setFilename(const char *newFilename) {
         return;
     }
 
-    delete[] this->filename;
     this->filename = new char[std::strlen(newFilename) + 1];
     std::strncpy(this->filename, newFilename, std::strlen(newFilename) + 1);
 }

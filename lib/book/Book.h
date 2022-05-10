@@ -26,7 +26,7 @@ private:
 public:
     Book(const char *name = "Untitled", const char *author = "Unknown author", const char *description = "",
          unsigned int rating = 0,
-         const char *ISBN = "9780000000000", const char *filename = "");
+         const char *ISBN = "9780000000002", const char *filename = "");
 
     Book(const Book &other);
 
