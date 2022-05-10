@@ -21,6 +21,8 @@ private:
 
     int findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const;
 
+    int findUserIndex(const char *username) const;
+
 public:
     Library(const char *booksFilename, const char *usersFilename);
 
@@ -43,6 +45,8 @@ public:
     void updateBooksFile() const;
 
     void updateUsersFile() const;
+
+    User *loginUser(const char *username, const char *password) const;
 
     char *getBooksFilename() const;
 

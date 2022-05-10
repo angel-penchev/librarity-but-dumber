@@ -78,6 +78,11 @@ char *User::getPasswordHash() const {
     return this->passwordHash;
 }
 
+bool User::verifyPassword(const char *password) {
+    const char *encryptedPassword = encryptPassword(password);
+    return !std::strcmp(encryptedPassword, this->passwordHash);
+}
+
 const char *User::encryptPassword(const char *unencryptedPassword) {
     return unencryptedPassword; //TODO: actually do some encryption
 }

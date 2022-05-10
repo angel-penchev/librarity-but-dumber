@@ -40,6 +40,7 @@ public:
 
     void setPassword(const char *newPassword, bool isEncrypted = false);
 
+    bool verifyPassword(const char *password);
 };
 
 

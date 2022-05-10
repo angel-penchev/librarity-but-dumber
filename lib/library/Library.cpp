@@ -160,6 +160,19 @@ void Library::updateUsersFile() const {
     usersFile.close();
 }
 
+User *Library::loginUser(const char *username, const char *password) const {
+    // Find the user by username
+    int userIndex = this->findUserIndex(username);
+
+    // If the user is not found or if the password is incorrect, return nullptr
+    if (userIndex < 0 || !this->users[userIndex].verifyPassword(password)) {
+        return nullptr;
+    }
+
+    // Return the user if login credentials are correct
+    return &this->users[userIndex];
+}
+
 char *Library::getBooksFilename() const {
     return this->booksFilename;
 }
@@ -195,6 +208,16 @@ Library::findBookIndex(const char *name, const char *author, const char *ISBN, c
             !std::strcmp(this->books[i].getAuthor(), author) &&
             !strcmp(this->books[i].getISBN(), ISBN) &&
             std::strstr(this->books[i].getDescription(), descriptionSnippet) != nullptr) {
+            return (int) i;
+        }
+    }
+
+    return -1;
+}
+
+int Library::findUserIndex(const char *username) const {
+    for (unsigned int i = 0; i < this->usersCount; i++) {
+        if (!std::strcmp(this->users[i].getUsername(), username)) {
             return (int) i;
         }
     }
