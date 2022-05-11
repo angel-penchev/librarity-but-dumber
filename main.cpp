@@ -105,6 +105,34 @@ int main() {
             continue;
         }
 
+        // Command for adding a user to library
+        if (!std::strcmp(command, "add user")) {
+            // Validating whether the current user is admin or not
+            if (!user->isAdministrator()) {
+                std::cerr << "ERR: Admin privileges required!\n";
+                continue;
+            }
+
+            // User input for user creation
+            char username[MAX_STR_LEN];
+            std::cout << "|-> Username: ";
+            std::cin.getline(username, MAX_STR_LEN);
+
+            char password[MAX_STR_LEN];
+            std::cout << "|-> Password: ";
+            std::cin.getline(password, MAX_STR_LEN);
+
+            char isAdminChar;
+            std::cout << "|-> Is administrator (y/n): ";
+            std::cin >> isAdminChar;
+            std::cin.ignore();
+            bool isAdmin = isAdminChar == 'Y' || isAdminChar == 'y';
+
+            // Create the new user and update the users file
+            library.addUser(User(username, password, isAdmin));
+            library.updateUsersFile();
+        }
+
         if (!std::strcmp(command, "change password")) {
             char oldPassword[MAX_STR_LEN];
             std::cout << "|-> Old password: ";

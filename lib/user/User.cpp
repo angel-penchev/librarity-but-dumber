@@ -5,7 +5,7 @@
 #include <cstring>
 #include "User.h"
 
-User::User(const char *username, const char *password, const char isAdmin)
+User::User(const char *username, const char *password, bool isAdmin)
         : username(), passwordHash(), isAdmin(isAdmin) {
     setUsername(username);
     setPassword(password);

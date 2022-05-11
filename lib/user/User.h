@@ -23,7 +23,7 @@ private:
     void clear();
 
 public:
-    User(const char *username = "", const char *password = "", const char isAdmin = false);
+    User(const char *username = "", const char *password = "", bool isAdmin = false);
 
     User(const User &other);
 
