@@ -127,7 +127,7 @@ bool Library::removeBook(const char *name, const char *author, const char *ISBN)
 
 void Library::sortBooks() {
     for (int i = 0; i < (int) this->booksCount - 1; i++) {
-        for (int j = 0; j < (int) this->booksCount - i - 1; j++) {
+        for (int j = i + 1; j < (int) this->booksCount; j++) {
             if (std::strcmp(this->books[i].getName(), this->books[j].getName()) > 0) {
                 Book tempBook = books[i];
                 this->books[i] = this->books[j];
