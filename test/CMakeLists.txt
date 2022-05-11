@@ -7,7 +7,7 @@ set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 
 set(TEST_FILES
         unit/BookTest.cpp
-        )
+        e2e/LibrarityButDumberTest.cpp)
 
 add_executable(librarity_but_dumber_tests_run ${TEST_FILES})
 target_link_libraries(librarity_but_dumber_tests_run librarity_but_dumber_lib)
