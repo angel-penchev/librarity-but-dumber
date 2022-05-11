@@ -214,7 +214,12 @@ void Book::printAllContents() const {
         std::cerr << "ERR: Book content file could not be opened for reading!\n";
         return;
     }
-    std::cout << booksContentsFile;
+
+    while (!booksContentsFile.eof()) {
+        char line[MAX_LINE_LEN + 1];
+        booksContentsFile.getline(line, MAX_LINE_LEN);
+        std::cout << line << '\n';
+    }
     booksContentsFile.close();
 }
 
