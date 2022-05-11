@@ -23,8 +23,18 @@ private:
 
     int findUserIndex(const char *username) const;
 
+    void copy(const Library &other);
+
+    void clear();
+
 public:
+    Library();
+
     Library(const char *booksFilename, const char *usersFilename);
+
+    Library(const Library &other);
+
+    Library operator=(const Library &other);
 
     virtual ~Library();
 
@@ -52,6 +62,14 @@ public:
     changeUserPassword(User *user, const char *oldPassword, const char *newPassword,
                        const char *newPasswordConfirm) const;
 
+    Book *getBooks() const;
+
+    void setBooks(Book *newBooks, unsigned int size);
+
+    User *getUsers() const;
+
+    void setUsers(User *newUsers, unsigned int size);
+
     char *getBooksFilename() const;
 
     void setBooksFilename(const char *newBooksFilename);
@@ -59,6 +77,14 @@ public:
     char *getUsersFilename() const;
 
     void setUsersFilename(const char *newUsersFilename);
+
+    unsigned int getBooksCount() const;
+
+    void setBooksCount(unsigned int newBooksCount);
+
+    unsigned int getUsersCount() const;
+
+    void setUsersCount(unsigned int newUsersCount);
 };
 
 

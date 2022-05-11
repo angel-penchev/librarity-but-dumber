@@ -6,6 +6,13 @@
 #include <cstring>
 #include "Library.h"
 
+Library::Library() {
+    this->books = new Book[0];
+    this->users = new User[0];
+    this->setBooksFilename("");
+    this->setUsersFilename("");
+}
+
 Library::Library(const char *booksFilename, const char *usersFilename) : books(new Book[0]), users(new User[0]),
                                                                          booksFilename(), usersFilename() {
     // Set books and users filename properties
@@ -45,18 +52,20 @@ Library::Library(const char *booksFilename, const char *usersFilename) : books(n
     usersFile.close();
 }
 
+Library::Library(const Library &other) {
+    this->copy(other);
+}
+
+Library Library::operator=(const Library &other) {
+    if (this != &other) {
+        this->clear();
+        this->copy(other);
+    }
+    return *this;
+}
+
 Library::~Library() {
-    delete[] this->books;
-    this->books = nullptr;
-
-    delete[] this->users;
-    this->users = nullptr;
-
-    delete[] this->booksFilename;
-    this->booksFilename = nullptr;
-
-    delete[] this->usersFilename;
-    this->usersFilename = nullptr;
+    this->clear();
 }
 
 void Library::addBook(const Book &book) {
@@ -203,6 +212,32 @@ void Library::changeUserPassword(User *user, const char *oldPassword, const char
     this->updateUsersFile();
 }
 
+
+Book *Library::getBooks() const {
+    return books;
+}
+
+void Library::setBooks(Book *newBooks, unsigned int size) {
+    this->books = new Book[size];
+
+    for (unsigned int i = 0; i < size; i++) {
+        this->books[i] = newBooks[i];
+    }
+}
+
+User *Library::getUsers() const {
+    return users;
+}
+
+void Library::setUsers(User *newUsers, unsigned int size) {
+    this->users = new User[size];
+
+    for (unsigned int i = 0; i < size; i++) {
+        this->users[i] = newUsers[i];
+    }
+}
+
+
 char *Library::getBooksFilename() const {
     return this->booksFilename;
 }
@@ -231,6 +266,22 @@ void Library::setUsersFilename(const char *newUsersFilename) {
     std::strncpy(this->usersFilename, newUsersFilename, std::strlen(newUsersFilename) + 1);
 }
 
+unsigned int Library::getBooksCount() const {
+    return this->booksCount;
+}
+
+void Library::setBooksCount(unsigned int newBooksCount) {
+    this->booksCount = newBooksCount;
+}
+
+unsigned int Library::getUsersCount() const {
+    return this->usersCount;
+}
+
+void Library::setUsersCount(unsigned int newUsersCount) {
+    this->usersCount = newUsersCount;
+}
+
 int
 Library::findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const {
     for (unsigned int i = 0; i < this->booksCount; i++) {
@@ -253,4 +304,27 @@ int Library::findUserIndex(const char *username) const {
     }
 
     return -1;
+}
+
+void Library::copy(const Library &other) {
+    this->setBooks(other.getBooks(), other.getBooksCount());
+    this->setUsers(other.getUsers(), other.getUsersCount());
+    this->setBooksFilename(other.getBooksFilename());
+    this->setUsersFilename(other.getUsersFilename());
+    this->setBooksCount(other.getBooksCount());
+    this->setUsersCount(other.getUsersCount());
+}
+
+void Library::clear() {
+    delete[] this->books;
+    this->books = nullptr;
+
+    delete[] this->users;
+    this->users = nullptr;
+
+    delete[] this->booksFilename;
+    this->booksFilename = nullptr;
+
+    delete[] this->usersFilename;
+    this->usersFilename = nullptr;
 }
