@@ -5,7 +5,8 @@
 #include <cstring>
 #include "User.h"
 
-User::User(const char *username, const char *password) : username(), passwordHash() {
+User::User(const char *username, const char *password, const char isAdmin)
+        : username(), passwordHash(), isAdmin(isAdmin) {
     setUsername(username);
     setPassword(password);
 }
@@ -24,6 +25,8 @@ User::User(std::istream &in) {
     in.read((char *) &passwordHashLength, sizeof(passwordHashLength));
     this->passwordHash = new char[passwordHashLength];
     in.read(this->passwordHash, passwordHashLength);
+
+    in.read((char *) this->isAdmin, sizeof(this->isAdmin));
 }
 
 User &User::operator=(const User &other) {
@@ -46,6 +49,13 @@ void User::serialize(std::ostream &out) {
     unsigned int passwordHashLength = std::strlen(this->passwordHash) + 1;
     out.write((const char *) &passwordHashLength, sizeof(passwordHashLength));
     out.write((const char *) this->passwordHash, passwordHashLength);
+
+    out.write((const char *) &this->isAdmin, sizeof(this->isAdmin));
+}
+
+bool User::verifyPassword(const char *password) {
+    const char *encryptedPassword = encryptPassword(password);
+    return !std::strcmp(encryptedPassword, this->passwordHash);
 }
 
 char *User::getUsername() const {
@@ -78,9 +88,12 @@ char *User::getPasswordHash() const {
     return this->passwordHash;
 }
 
-bool User::verifyPassword(const char *password) {
-    const char *encryptedPassword = encryptPassword(password);
-    return !std::strcmp(encryptedPassword, this->passwordHash);
+bool User::isAdministrator() const {
+    return this->isAdmin;
+}
+
+void User::setIsAdministrator(bool newIsAdmin) {
+    this->isAdmin = newIsAdmin;
 }
 
 const char *User::encryptPassword(const char *unencryptedPassword) {
@@ -90,6 +103,7 @@ const char *User::encryptPassword(const char *unencryptedPassword) {
 void User::copy(const User &other) {
     this->setUsername(other.getUsername());
     this->setPassword(other.getPasswordHash(), true);
+    this->setIsAdministrator(other.isAdministrator());
 }
 
 void User::clear() {

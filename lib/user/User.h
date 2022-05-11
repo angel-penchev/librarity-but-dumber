@@ -12,6 +12,7 @@ class User {
 private:
     char *username;
     char *passwordHash;
+    bool isAdmin;
 
     char *getPasswordHash() const;
 
@@ -22,7 +23,7 @@ private:
     void clear();
 
 public:
-    User(const char *username = "", const char *password = "");
+    User(const char *username = "", const char *password = "", const char isAdmin = false);
 
     User(const User &other);
 
@@ -34,13 +35,17 @@ public:
 
     void serialize(std::ostream &out);
 
+    bool verifyPassword(const char *password);
+
     char *getUsername() const;
 
     void setUsername(const char *newUsername);
 
     void setPassword(const char *newPassword, bool isEncrypted = false);
 
-    bool verifyPassword(const char *password);
+    bool isAdministrator() const;
+
+    void setIsAdministrator(bool newIsAdmin);
 };
 
 
