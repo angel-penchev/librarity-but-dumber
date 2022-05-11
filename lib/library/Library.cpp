@@ -5,7 +5,6 @@
 #include <iostream>
 #include <cstring>
 #include "Library.h"
-#include "../enums/ReadingMode.h"
 
 Library::Library(const char *booksFilename, const char *usersFilename) : books(new Book[0]), users(new User[0]),
                                                                          booksFilename(), usersFilename() {
@@ -24,14 +23,24 @@ Library::Library(const char *booksFilename, const char *usersFilename) : books(n
     }
     booksFile.close();
 
-    // Read users from the books binary if it exists
+    // Try to open users file and read the users from there.
+    // If that fails, creating a new users file with a default admin.
     std::ifstream usersFile(usersFilename, std::ios::binary | std::ios::in);
-    if (usersFile) {
-        unsigned int usersCountFromFile;
-        usersFile.read((char *) &usersCountFromFile, sizeof(usersCountFromFile));
-        for (unsigned int i = 0; i < usersCountFromFile; i++) {
-            this->addUser(User(usersFile));
-        }
+    if (!usersFile) {
+        // Add a default administrator to the users
+        User defaultAdmin = User("admin", "admin", true);
+        this->addUser(defaultAdmin);
+
+        // Create new users file with the administrator
+        this->updateUsersFile();
+        return;
+    }
+
+    // Read users from the books binary
+    unsigned int usersCountFromFile;
+    usersFile.read((char *) &usersCountFromFile, sizeof(usersCountFromFile));
+    for (unsigned int i = 0; i < usersCountFromFile; i++) {
+        this->addUser(User(usersFile));
     }
     usersFile.close();
 }
@@ -152,7 +161,7 @@ void Library::updateBooksFile() const {
 }
 
 void Library::updateUsersFile() const {
-    std::ofstream usersFile(this->booksFilename, std::ios::binary | std::ios::out | std::ios::trunc);
+    std::ofstream usersFile(this->usersFilename, std::ios::binary | std::ios::out | std::ios::trunc);
     usersFile.write((const char *) &this->usersCount, sizeof(this->usersCount));
     for (unsigned int i = 0; i < this->usersCount; i++) {
         this->users[i].serialize(usersFile);

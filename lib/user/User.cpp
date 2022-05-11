@@ -26,7 +26,7 @@ User::User(std::istream &in) {
     this->passwordHash = new char[passwordHashLength];
     in.read(this->passwordHash, passwordHashLength);
 
-    in.read((char *) this->isAdmin, sizeof(this->isAdmin));
+    in.read((char *) &this->isAdmin, sizeof(this->isAdmin));
 }
 
 User &User::operator=(const User &other) {
@@ -67,7 +67,6 @@ void User::setUsername(const char *newUsername) {
         return;
     }
 
-    delete[] this->username;
     this->username = new char[std::strlen(newUsername) + 1];
     std::strncpy(this->username, newUsername, std::strlen(newUsername) + 1);
 }
@@ -79,7 +78,6 @@ void User::setPassword(const char *newPassword, bool isEncrypted) {
 
     const char *encryptedPassword = !isEncrypted ? encryptPassword(newPassword) : newPassword;
 
-    delete[] this->passwordHash;
     this->passwordHash = new char[std::strlen(encryptedPassword) + 1];
     std::strncpy(this->passwordHash, encryptedPassword, std::strlen(encryptedPassword) + 1);
 }
