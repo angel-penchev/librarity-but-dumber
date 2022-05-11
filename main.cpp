@@ -3,7 +3,7 @@
 #include "library/Library.h"
 
 #define MAX_PWD_ATTEMPTS 3
-#define MAX_CMD_LEN 16
+#define MAX_CMD_LEN 32
 #define MAX_STR_LEN 1024
 
 int main() {
@@ -35,7 +35,7 @@ int main() {
     }
 
     char command[MAX_CMD_LEN];
-    while (std::cout << "|> " && std::cin >> command && std::cin.ignore()) {
+    while (std::cout << "|> " && std::cin.getline(command, MAX_CMD_LEN - 1)) {
         if (!std::strcmp(command, "sort") || !std::strcmp(command, "view")) {
             library.sortBooks();
             library.printBooks();
@@ -103,6 +103,22 @@ int main() {
             library.updateBooksFile();
 
             continue;
+        }
+
+        if (!std::strcmp(command, "change password")) {
+            char oldPassword[MAX_STR_LEN];
+            std::cout << "|-> Old password: ";
+            std::cin.getline(oldPassword, MAX_STR_LEN);
+
+            char newPassword[MAX_STR_LEN];
+            std::cout << "|-> New password: ";
+            std::cin.getline(newPassword, MAX_STR_LEN);
+
+            char newPasswordConfirm[MAX_STR_LEN];
+            std::cout << "|-> New password (confirm): ";
+            std::cin.getline(newPasswordConfirm, MAX_STR_LEN);
+
+            library.changeUserPassword(user, oldPassword, newPassword, newPasswordConfirm);
         }
 
         if (!std::strcmp(command, "remove")) {

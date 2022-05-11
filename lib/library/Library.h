@@ -48,6 +48,10 @@ public:
 
     User *loginUser(const char *username, const char *password) const;
 
+    void
+    changeUserPassword(User *user, const char *oldPassword, const char *newPassword,
+                       const char *newPasswordConfirm) const;
+
     char *getBooksFilename() const;
 
     void setBooksFilename(const char *newBooksFilename);

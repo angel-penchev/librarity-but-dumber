@@ -182,6 +182,27 @@ User *Library::loginUser(const char *username, const char *password) const {
     return &this->users[userIndex];
 }
 
+void Library::changeUserPassword(User *user, const char *oldPassword, const char *newPassword,
+                                 const char *newPasswordConfirm) const {
+    // Verifying the old password matches the one stored
+    if (!user->verifyPassword(oldPassword)) {
+        std::cerr << "ERR: Invalid old password!\n";
+        return;
+    }
+
+    // Verifying the new password and its confirmation match
+    if (std::strcmp(newPassword, newPasswordConfirm) != 0) {
+        std::cerr << "ERR: New password doesn't match!\n";
+        return;
+    }
+
+    // Change the password
+    user->setPassword(newPassword);
+
+    // Update users file after the change
+    this->updateUsersFile();
+}
+
 char *Library::getBooksFilename() const {
     return this->booksFilename;
 }
