@@ -51,4 +51,16 @@ TEST_F(LibrarityButDumberFixture, ShouldAcceptDefaultCredentials) {
 
     // Asserting if expected output equals actual
     ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
+
+    // Verify the users binary has only 1 user - the administrator
+    std::ifstream usersFile("users.bin", std::ios::binary | std::ios::in);
+    ASSERT_TRUE(usersFile);
+
+    unsigned int usersCountFromFile;
+    usersFile.read((char *) &usersCountFromFile, sizeof(usersCountFromFile));
+    ASSERT_EQ(usersCountFromFile, 1);
+
+    User user = User(usersFile);
+    ASSERT_STREQ(user.getUsername(), "admin");
+    ASSERT_TRUE(user.isAdministrator());
 }
