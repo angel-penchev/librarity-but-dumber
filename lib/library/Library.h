@@ -5,6 +5,8 @@
 #ifndef LIBRARITY_BUT_DUMBER_LIBRARY_H
 #define LIBRARITY_BUT_DUMBER_LIBRARY_H
 
+#include <iostream>
+#include <cstring>
 
 #include "../book/Book.h"
 #include "../user/User.h"

@@ -2,7 +2,6 @@
 // Created by apenchev on 5/4/2022.
 //
 
-#include <cstring>
 #include "User.h"
 
 User::User(const char *username, const char *password, bool isAdmin)

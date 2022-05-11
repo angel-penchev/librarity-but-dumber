@@ -2,8 +2,6 @@
 // Created by apenchev on 5/4/2022.
 //
 
-#include <cstring>
-#include <iostream>
 #include "Book.h"
 
 Book::Book(const char *name, const char *author, const char *description, double rating, const char *ISBN,

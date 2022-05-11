@@ -7,6 +7,8 @@
 
 #include <fstream>
 #include <ostream>
+#include <cstring>
+#include <iostream>
 
 #define MAX_LINE_LEN 8196
 

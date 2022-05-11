@@ -5,8 +5,8 @@
 #ifndef LIBRARITY_BUT_DUMBER_USER_H
 #define LIBRARITY_BUT_DUMBER_USER_H
 
-
 #include <fstream>
+#include <cstring>
 
 class User {
 private:

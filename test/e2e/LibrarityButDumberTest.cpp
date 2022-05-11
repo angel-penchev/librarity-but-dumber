@@ -9,11 +9,13 @@ class LibrarityButDumberFixture : public ::testing::Test {
 protected:
     std::stringstream inputStream;
     std::stringstream outputStream;
+    std::stringstream errorStream;
 
     void SetUp() override {
-        // Redirect cin and cout to stringstreams
+        // Redirect cin, cout and cerr to stringstreams
         std::cin.rdbuf(inputStream.rdbuf());
         std::cout.rdbuf(outputStream.rdbuf());
+        std::cerr.rdbuf(errorStream.rdbuf());
     }
 
     void TearDown() override {
