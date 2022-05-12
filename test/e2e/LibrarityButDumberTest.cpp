@@ -53,6 +53,7 @@ TEST_F(LibrarityButDumberFixture, ShouldAcceptDefaultCredentials) {
 
     // Asserting if expected output equals actual
     ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
+    ASSERT_TRUE(errorStream.str() == expectedErrorStream.str());
 
     // Verify the users binary has only 1 user - the administrator
     std::ifstream usersFile("users.bin", std::ios::binary | std::ios::in);
@@ -65,4 +66,32 @@ TEST_F(LibrarityButDumberFixture, ShouldAcceptDefaultCredentials) {
     User user = User(usersFile);
     ASSERT_STREQ(user.getUsername(), "admin");
     ASSERT_TRUE(user.isAdministrator());
+}
+
+TEST_F(LibrarityButDumberFixture, ShouldExitOn3InvalidPassords) {
+    std::stringstream expectedOutputStream;
+    std::stringstream expectedErrorStream;
+
+    // Login with invalid credentials
+    // Requesting username
+    expectedOutputStream << "Username: ";
+    inputStream << "admin\n";
+
+    // Inputting 3 invalid passwords
+    expectedOutputStream << "Password: ";
+    inputStream << "gosho\n";
+    expectedOutputStream << "Password: ";
+    inputStream << "losho\n";
+    expectedOutputStream << "Password: ";
+    inputStream << "posho\n";
+
+    // Expecting an authentication error message
+    expectedErrorStream << "ERR: Failed to authenticate user!\n";
+
+    // Running the program
+    LibrarityButDumber::run();
+
+    // Asserting if expected output equals actual
+    ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
+    ASSERT_TRUE(errorStream.str() == expectedErrorStream.str());
 }
