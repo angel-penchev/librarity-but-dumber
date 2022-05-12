@@ -142,14 +142,16 @@ int LibrarityButDumber::run() {
 
             // Selecting which print mode should be used
             unsigned int modeNumber;
-            std::cout << "|-> Content writing mode (0: empty file, 1: console input, 2: copy from file): ";
-            std::cin >> modeNumber;
-            std::cin.ignore();
 
-            if (modeNumber > 2) {
-                std::cerr << "ERR: Invalid mode number!\n";
-                continue;
-            }
+            do {
+                std::cout << "|-> Content writing mode (0: empty file, 1: console input, 2: copy from file): ";
+                std::cin >> modeNumber;
+                std::cin.ignore();
+                if (modeNumber > 2) {
+                    std::cerr << "WARN: Invalid mode number!\n";
+                }
+            } while (modeNumber > 2);
+
 
             // Create the new book and update the books file
             Book *book = library.addBook(Book(name, author, description, rating, ISBN, filename));
@@ -282,14 +284,14 @@ int LibrarityButDumber::run() {
 
             // Selecting which print mode should be used
             unsigned int modeNumber;
-            std::cout << "|-> Reading mode (0: whole book, 1: pages, 2: sentences): ";
-            std::cin >> modeNumber;
-            std::cin.ignore();
-
-            if (modeNumber > 2) {
-                std::cerr << "ERR: Invalid mode number!\n";
-                continue;
-            }
+            do {
+                std::cout << "|-> Reading mode (0: whole book, 1: pages, 2: sentences): ";
+                std::cin >> modeNumber;
+                std::cin.ignore();
+                if (modeNumber > 2) {
+                    std::cerr << "WARN: Invalid mode number!\n";
+                }
+            } while (modeNumber > 2);
 
             // If PAGES mode is selected -> get user input for how many lines per page should be printed
             unsigned int linesCount;
