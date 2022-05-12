@@ -89,19 +89,6 @@ int LibrarityButDumber::run() {
             library.changeUserPassword(user, oldPassword, newPassword, newPasswordConfirm);
         }
 
-        // Command for outputting all books in the library
-        if (!std::strcmp(command, "view")) {
-            library.printBooks();
-            continue;
-        }
-
-        // Command for sorting and outputting all books in the library
-        if (!std::strcmp(command, "sort")) {
-            library.sortBooks();
-            library.printBooks();
-            continue;
-        }
-
         // Command for adding a book to the library
         if (!std::strcmp(command, "add") || !std::strcmp(command, "add book")) {
             // Validating whether the current user is administrator or not
@@ -135,6 +122,23 @@ int LibrarityButDumber::run() {
             char filename[MAX_STR_LEN];
             std::cout << "|-> Filename: ";
             std::cin.getline(filename, MAX_STR_LEN);
+
+            // Check if the book content file exists and ask whether to override it if it does
+            std::ifstream booksContentsFile(filename);
+            if (booksContentsFile) {
+                booksContentsFile.close();
+                char overrideFileChar;
+                std::cerr << "WARN: A file with the name \"" << filename << "\" already exists!\n";
+                std::cout << "|-> Override file (y/n): ";
+
+                std::cin >> overrideFileChar;
+                std::cin.ignore();
+                bool overrideFile = overrideFileChar == 'Y' || overrideFileChar == 'y';
+
+                if (!overrideFile) {
+                    continue;
+                }
+            }
 
             // Create the new book and update the books file
             library.addBook(Book(name, author, description, rating, ISBN, filename));
@@ -173,6 +177,19 @@ int LibrarityButDumber::run() {
             // Update the books file if the book is removed
             library.updateBooksFile();
 
+            continue;
+        }
+
+        // Command for outputting all books in the library
+        if (!std::strcmp(command, "view")) {
+            library.printBooks();
+            continue;
+        }
+
+        // Command for sorting and outputting all books in the library
+        if (!std::strcmp(command, "sort")) {
+            library.sortBooks();
+            library.printBooks();
             continue;
         }
 
