@@ -40,9 +40,9 @@ public:
 
     virtual ~Library();
 
-    void addBook(const Book &book);
+    Book *addBook(const Book &book);
 
-    void addUser(const User &user);
+    User *addUser(const User &user);
 
     Book *findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const;
 

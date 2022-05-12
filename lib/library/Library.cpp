@@ -66,28 +66,32 @@ Library::~Library() {
     this->clear();
 }
 
-void Library::addBook(const Book &book) {
+Book *Library::addBook(const Book &book) {
     Book *newArr = new Book[this->booksCount + 1];
 
     for (unsigned int i = 0; i < this->booksCount; i++) {
         newArr[i] = this->books[i];
     }
-    newArr[this->booksCount++] = book;
+    newArr[this->booksCount] = book;
 
     delete[] this->books;
     this->books = newArr;
+
+    return &this->books[this->booksCount++];
 }
 
-void Library::addUser(const User &user) {
+User *Library::addUser(const User &user) {
     User *newArr = new User[this->usersCount + 1];
 
     for (unsigned int i = 0; i < this->usersCount; i++) {
         newArr[i] = this->users[i];
     }
-    newArr[this->usersCount++] = user;
+    newArr[this->usersCount] = user;
 
     delete[] this->users;
     this->users = newArr;
+
+    return &this->users[this->usersCount++];
 }
 
 Book *Library::findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const {
