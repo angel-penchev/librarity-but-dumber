@@ -159,18 +159,36 @@ int LibrarityButDumber::run() {
             // Create and fill the book contents file
             switch ((WritingMode) modeNumber) {
                 case NONE:
+                    // Write an empty string to the book contents file
                     book->updateContents();
                     break;
                 case STANDARD_IN:
                     std::cout << "Write the book content below (write \"--end--\" or press Ctrl+D to end):\n";
+
+                    // Append new lines to the file until the user exits
                     char line[MAX_CMD_LEN];
                     while (std::cin.getline(line, MAX_CMD_LEN - 1) && std::strcmp(line, "--end--") != 0) {
-                        book->updateContents(line);
+                        book->updateContents(line, false);
                     }
                     break;
                 case FROM_FILE:
-                default:
-                    std::cerr << "ERR: Invalid writing mode!\n";
+                    // Get filename of the file from which to copy
+                    char sourceFilename[MAX_STR_LEN];
+                    std::cout << "|-> Source filename: ";
+                    std::cin.getline(sourceFilename, MAX_STR_LEN);
+
+                    // Open the source content file
+                    std::ifstream sourceFile(sourceFilename, std::ios::in);
+                    if (!sourceFile) {
+                        std::cerr << "ERR: Source content file could not be opened for reading!\n";
+                        book->updateContents(); // Create an empty file on failure
+                        continue;
+                    }
+
+                    // Copy contents from source file and close it
+                    book->updateContents(sourceFile);
+                    sourceFile.close();
+                    break;
             }
 
             continue;

@@ -71,7 +71,9 @@ public:
 
     void printSentenceSeparatedContents() const;
 
-    void updateContents(const char *line = "", bool isTruncateMode = false);
+    void updateContents(const char *line = "", bool isTruncateMode = true);
+
+    void updateContents(std::ifstream &input, bool isTruncateMode = true);
 };
 
 

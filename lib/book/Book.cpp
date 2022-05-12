@@ -260,7 +260,7 @@ void Book::printSentenceSeparatedContents() const {
 }
 
 void Book::updateContents(const char *line, bool isTruncateMode) {
-    // Discard old contents file and open a new one for writing
+    // Open contents file for writing
     std::ofstream booksContentsFile(
             this->filename, std::ios::out | (isTruncateMode ? std::ios::trunc : std::ios::app));
     if (!booksContentsFile) {
@@ -270,6 +270,21 @@ void Book::updateContents(const char *line, bool isTruncateMode) {
 
     // Write the text input to the text file
     booksContentsFile << line << '\n';
+
+    booksContentsFile.close();
+}
+
+void Book::updateContents(std::ifstream &input, bool isTruncateMode) {
+    // Open contents file for writing
+    std::ofstream booksContentsFile(
+            this->filename, std::ios::out | (isTruncateMode ? std::ios::trunc : std::ios::app));
+    if (!booksContentsFile) {
+        std::cerr << "ERR: Book content file could not be opened for reading!\n";
+        return;
+    }
+
+    // Copy the contents of the input file to the book contents file
+    booksContentsFile << input.rdbuf();
 
     booksContentsFile.close();
 }
