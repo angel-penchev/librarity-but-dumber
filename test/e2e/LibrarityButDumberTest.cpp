@@ -66,6 +66,8 @@ TEST_F(LibrarityButDumberFixture, ShouldAcceptDefaultCredentials) {
     User user = User(usersFile);
     ASSERT_STREQ(user.getUsername(), "admin");
     ASSERT_TRUE(user.isAdministrator());
+
+    usersFile.close();
 }
 
 TEST_F(LibrarityButDumberFixture, ShouldExitOn3InvalidPassords) {
@@ -87,6 +89,96 @@ TEST_F(LibrarityButDumberFixture, ShouldExitOn3InvalidPassords) {
 
     // Expecting an authentication error message
     expectedErrorStream << "ERR: Failed to authenticate user!\n";
+
+    // Running the program
+    LibrarityButDumber::run();
+
+    // Asserting if expected output equals actual
+    ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
+    ASSERT_TRUE(errorStream.str() == expectedErrorStream.str());
+}
+
+TEST_F(LibrarityButDumberFixture, ShouldLetAdministratorAddNewUsersToBinaryFile) {
+    std::stringstream expectedOutputStream;
+    std::stringstream expectedErrorStream;
+
+    // Authenticate with default credentials
+    expectedOutputStream << "Username: ";
+    inputStream << "admin\n";
+    expectedOutputStream << "Password: ";
+    inputStream << "admin\n";
+    expectedOutputStream << "|> ";
+
+    // Create a new user command
+    inputStream << "add user\n";
+
+    // Username input for new admin
+    expectedOutputStream << "|-> Username: ";
+    inputStream << "gosho\n";
+
+    // Password input for new admin
+    expectedOutputStream << "|-> Password: ";
+    inputStream << "veristr0nkandsecurpa$$w0rd\n";
+
+    // Is the new admin administrator
+    expectedOutputStream << "|-> Is administrator (y/n): ";
+    inputStream << "n\n";
+
+    // Expecting no error thrown, just regular prompt indicator
+    expectedOutputStream << "|> ";
+
+    // Expect a new line before program ending
+    expectedOutputStream << "\n";
+
+    // Running the program
+    LibrarityButDumber::run();
+
+    // Asserting if expected output equals actual
+    ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
+    ASSERT_TRUE(errorStream.str() == expectedErrorStream.str());
+
+    // Verify the users binary has 2 admin - the administrator, and the new admin
+    std::ifstream usersFile("users.bin", std::ios::binary | std::ios::in);
+    ASSERT_TRUE(usersFile);
+
+    unsigned int usersCountFromFile;
+    usersFile.read((char *) &usersCountFromFile, sizeof(usersCountFromFile));
+    ASSERT_EQ(usersCountFromFile, 2);
+
+    User admin = User(usersFile);
+    ASSERT_STREQ(admin.getUsername(), "admin");
+    ASSERT_TRUE(admin.isAdministrator());
+
+    User newUser = User(usersFile);
+    ASSERT_STREQ(newUser.getUsername(), "gosho");
+    ASSERT_FALSE(newUser.isAdministrator());
+
+    usersFile.close();
+
+    // Reset stringstreams for new program execution
+    std::stringstream inputStream2;
+    std::cin.rdbuf(inputStream2.rdbuf());
+    outputStream.str("");
+    errorStream.str("");
+    expectedOutputStream.str("");
+    expectedErrorStream.str("");
+
+    // Authenticate with new user credentials
+    expectedOutputStream << "Username: ";
+    inputStream2 << "gosho\n";
+    expectedOutputStream << "Password: ";
+    inputStream2 << "veristr0nkandsecurpa$$w0rd\n";
+
+    // Expecting no error thrown, just regular prompt indicator
+    expectedOutputStream << "|> ";
+
+    // Trying to add new user from non-administrator account - should fail with error
+    inputStream2 << "add user\n";
+    expectedErrorStream << "ERR: Admin privileges required!\n";
+    expectedOutputStream << "|> ";
+
+    // Expect a new line before program ending
+    expectedOutputStream << "\n";
 
     // Running the program
     LibrarityButDumber::run();
