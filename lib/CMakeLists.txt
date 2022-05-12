@@ -5,6 +5,7 @@ set(HEADER_FILES
         user/User.h
         library/Library.h
         enums/ReadingMode.h
+        enums/WritingMode.h
         librarity-but-dumber/LibrarityButDumber.h
         )
 

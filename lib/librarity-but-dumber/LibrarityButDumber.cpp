@@ -3,6 +3,7 @@
 //
 
 #include "LibrarityButDumber.h"
+#include "enums/WritingMode.h"
 
 int LibrarityButDumber::run() {
     // Set binary file locations and initialize a library object
@@ -140,9 +141,37 @@ int LibrarityButDumber::run() {
                 }
             }
 
+            // Selecting which print mode should be used
+            unsigned int modeNumber;
+            std::cout << "|-> Content writing mode (0: empty file, 1: console input, 2: copy from file): ";
+            std::cin >> modeNumber;
+            std::cin.ignore();
+
+            if (modeNumber > 2) {
+                std::cerr << "ERR: Invalid mode number!\n";
+                continue;
+            }
+
             // Create the new book and update the books file
-            library.addBook(Book(name, author, description, rating, ISBN, filename));
+            Book *book = library.addBook(Book(name, author, description, rating, ISBN, filename));
             library.updateBooksFile();
+
+            // Create and fill the book contents file
+            switch ((WritingMode) modeNumber) {
+                case NONE:
+                    book->updateContents();
+                    break;
+                case STANDARD_IN:
+                    std::cout << "Write the book content below (write \"--end--\" or press Ctrl+D to end):\n";
+                    char line[MAX_CMD_LEN];
+                    while (std::cin.getline(line, MAX_CMD_LEN - 1) && std::strcmp(line, "--end--") != 0) {
+                        book->updateContents(line);
+                    }
+                    break;
+                case FROM_FILE:
+                default:
+                    std::cerr << "ERR: Invalid writing mode!\n";
+            }
 
             continue;
         }

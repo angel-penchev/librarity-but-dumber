@@ -35,6 +35,8 @@ public:
 
     Book &operator=(const Book &other);
 
+    friend std::ostream &operator<<(std::ostream &os, const Book &book);
+
     virtual ~Book();
 
     void serialize(std::ostream &out);
@@ -69,7 +71,7 @@ public:
 
     void printSentenceSeparatedContents() const;
 
-    friend std::ostream &operator<<(std::ostream &os, const Book &book);
+    void updateContents(const char *line = "", bool isTruncateMode = false);
 };
 
 

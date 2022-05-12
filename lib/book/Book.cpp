@@ -207,7 +207,7 @@ void Book::setFilename(const char *newFilename) {
 }
 
 void Book::printAllContents() const {
-    std::ifstream booksContentsFile(this->filename);
+    std::ifstream booksContentsFile(this->filename, std::ios::in);
     if (!booksContentsFile) {
         std::cerr << "ERR: Book content file could not be opened for reading!\n";
         return;
@@ -222,7 +222,7 @@ void Book::printAllContents() const {
 }
 
 void Book::printPaginatedContents(unsigned int linesCount) const {
-    std::ifstream booksContentsFile(this->filename);
+    std::ifstream booksContentsFile(this->filename, std::ios::in);
     if (!booksContentsFile) {
         std::cerr << "ERR: Book content file could not be opened for reading!\n";
         return;
@@ -255,6 +255,21 @@ void Book::printSentenceSeparatedContents() const {
         std::cout << line << "\n\n-- press enter to continue --\n";
         std::cin.ignore();
     }
+
+    booksContentsFile.close();
+}
+
+void Book::updateContents(const char *line, bool isTruncateMode) {
+    // Discard old contents file and open a new one for writing
+    std::ofstream booksContentsFile(
+            this->filename, std::ios::out | (isTruncateMode ? std::ios::trunc : std::ios::app));
+    if (!booksContentsFile) {
+        std::cerr << "ERR: Book content file could not be opened for reading!\n";
+        return;
+    }
+
+    // Write the text input to the text file
+    booksContentsFile << line << '\n';
 
     booksContentsFile.close();
 }

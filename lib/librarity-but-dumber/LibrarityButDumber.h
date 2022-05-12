@@ -12,6 +12,7 @@
 #define MAX_PWD_ATTEMPTS 3
 #define MAX_CMD_LEN 32
 #define MAX_STR_LEN 1024
+#define MAX_LINE_LEN 8196
 
 class LibrarityButDumber {
 public:
