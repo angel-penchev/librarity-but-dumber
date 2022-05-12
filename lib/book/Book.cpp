@@ -214,7 +214,7 @@ void Book::printAllContents() const {
     }
 
     while (!booksContentsFile.eof()) {
-        char line[MAX_LINE_LEN + 1];
+        char line[MAX_LINE_LEN];
         booksContentsFile.getline(line, MAX_LINE_LEN);
         std::cout << line << '\n';
     }
@@ -230,7 +230,7 @@ void Book::printPaginatedContents(unsigned int linesCount) const {
 
     while (!booksContentsFile.eof()) {
         for (unsigned int i = 0; i < linesCount; i++) {
-            char line[MAX_LINE_LEN + 1];
+            char line[MAX_LINE_LEN];
             booksContentsFile.getline(line, MAX_LINE_LEN);
             std::cout << line << '\n';
         }
