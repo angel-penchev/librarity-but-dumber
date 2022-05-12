@@ -26,10 +26,11 @@ protected:
         // Reset streams
         inputStream.str("");
         outputStream.str("");
+        errorStream.str("");
     }
 };
 
-TEST_F(LibrarityButDumberFixture, ShouldAcceptDefaultCredentials) {
+TEST_F(LibrarityButDumberFixture, ShouldAcceptDefaultLoginCredentials) {
     std::stringstream expectedOutputStream;
     std::stringstream expectedErrorStream;
 
@@ -112,15 +113,15 @@ TEST_F(LibrarityButDumberFixture, ShouldLetAdministratorAddNewUsersToBinaryFile)
     // Create a new user command
     inputStream << "add user\n";
 
-    // Username input for new admin
+    // Username input for new user
     expectedOutputStream << "|-> Username: ";
     inputStream << "gosho\n";
 
-    // Password input for new admin
+    // Password input for new user
     expectedOutputStream << "|-> Password: ";
     inputStream << "veristr0nkandsecurpa$$w0rd\n";
 
-    // Is the new admin administrator
+    // Is the new user administrator
     expectedOutputStream << "|-> Is administrator (y/n): ";
     inputStream << "n\n";
 
@@ -175,6 +176,69 @@ TEST_F(LibrarityButDumberFixture, ShouldLetAdministratorAddNewUsersToBinaryFile)
     // Trying to add new user from non-administrator account - should fail with error
     inputStream2 << "add user\n";
     expectedErrorStream << "ERR: Admin privileges required!\n";
+    expectedOutputStream << "|> ";
+
+    // Expect a new line before program ending
+    expectedOutputStream << "\n";
+
+    // Running the program
+    LibrarityButDumber::run();
+
+    // Asserting if expected output equals actual
+    ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
+    ASSERT_TRUE(errorStream.str() == expectedErrorStream.str());
+}
+
+TEST_F(LibrarityButDumberFixture, ShouldLetUserChangePassword) {
+    std::stringstream expectedOutputStream;
+    std::stringstream expectedErrorStream;
+
+    // Authenticate with default credentials
+    expectedOutputStream << "Username: ";
+    inputStream << "admin\n";
+    expectedOutputStream << "Password: ";
+    inputStream << "admin\n";
+    expectedOutputStream << "|> ";
+
+    // Change password command
+    inputStream << "change password\n";
+
+    // Inputs for password change
+    expectedOutputStream << "|-> Old password: ";
+    inputStream << "admin\n";
+    expectedOutputStream << "|-> New password: ";
+    inputStream << "veristr0nkandsecurpa$$w0rd\n";
+    expectedOutputStream << "|-> New password (confirm): ";
+    inputStream << "veristr0nkandsecurpa$$w0rd\n";
+
+    // Expecting no error thrown, just regular prompt indicator
+    expectedOutputStream << "|> ";
+
+    // Expect a new line before program ending
+    expectedOutputStream << "\n";
+
+    // Running the program
+    LibrarityButDumber::run();
+
+    // Asserting if expected output equals actual
+    ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
+    ASSERT_TRUE(errorStream.str() == expectedErrorStream.str());
+
+    // Reset stringstreams for new program execution
+    std::stringstream inputStream2;
+    std::cin.rdbuf(inputStream2.rdbuf());
+    outputStream.str("");
+    errorStream.str("");
+    expectedOutputStream.str("");
+    expectedErrorStream.str("");
+
+    // Authenticate with new user credentials
+    expectedOutputStream << "Username: ";
+    inputStream2 << "admin\n";
+    expectedOutputStream << "Password: ";
+    inputStream2 << "veristr0nkandsecurpa$$w0rd\n";
+
+    // Expecting no error thrown, just regular prompt indicator
     expectedOutputStream << "|> ";
 
     // Expect a new line before program ending
