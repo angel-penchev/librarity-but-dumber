@@ -6,6 +6,7 @@ set(HEADER_FILES
         library/Library.h
         enums/ReadingMode.h
         enums/WritingMode.h
+        helpers/PasswordHelper.h
         librarity-but-dumber/LibrarityButDumber.h
         )
 
@@ -13,6 +14,7 @@ set(SOURCE_FILES
         book/Book.cpp
         user/User.cpp
         library/Library.cpp
+        helpers/PasswordHelper.cpp
         librarity-but-dumber/LibrarityButDumber.cpp
         )
 

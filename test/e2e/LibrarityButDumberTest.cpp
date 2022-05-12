@@ -42,6 +42,7 @@ TEST_F(LibrarityButDumberFixture, ShouldAcceptDefaultLoginCredentials) {
     // Requesting password
     expectedOutputStream << "Password: ";
     inputStream << "admin\n";
+    expectedOutputStream << "\n";
 
     // Expecting no error thrown, just regular prompt indicator
     expectedOutputStream << "|> ";
@@ -83,10 +84,13 @@ TEST_F(LibrarityButDumberFixture, ShouldExitOn3InvalidPassords) {
     // Inputting 3 invalid passwords
     expectedOutputStream << "Password: ";
     inputStream << "gosho\n";
+    expectedOutputStream << "\n";
     expectedOutputStream << "Password: ";
     inputStream << "losho\n";
+    expectedOutputStream << "\n";
     expectedOutputStream << "Password: ";
     inputStream << "posho\n";
+    expectedOutputStream << "\n";
 
     // Expecting an authentication error message
     expectedErrorStream << "ERR: Failed to authenticate user!\n";
@@ -108,7 +112,7 @@ TEST_F(LibrarityButDumberFixture, ShouldLetAdministratorAddNewUsersToBinaryFile)
     inputStream << "admin\n";
     expectedOutputStream << "Password: ";
     inputStream << "admin\n";
-    expectedOutputStream << "|> ";
+    expectedOutputStream << "\n|> ";
 
     // Create a new user command
     inputStream << "add user\n";
@@ -120,6 +124,7 @@ TEST_F(LibrarityButDumberFixture, ShouldLetAdministratorAddNewUsersToBinaryFile)
     // Password input for new user
     expectedOutputStream << "|-> Password: ";
     inputStream << "veristr0nkandsecurpa$$w0rd\n";
+    expectedOutputStream << "\n";
 
     // Is the new user administrator
     expectedOutputStream << "|-> Is administrator (y/n): ";
@@ -169,6 +174,7 @@ TEST_F(LibrarityButDumberFixture, ShouldLetAdministratorAddNewUsersToBinaryFile)
     inputStream2 << "gosho\n";
     expectedOutputStream << "Password: ";
     inputStream2 << "veristr0nkandsecurpa$$w0rd\n";
+    expectedOutputStream << "\n";
 
     // Expecting no error thrown, just regular prompt indicator
     expectedOutputStream << "|> ";
@@ -198,7 +204,7 @@ TEST_F(LibrarityButDumberFixture, ShouldLetUserChangePassword) {
     inputStream << "admin\n";
     expectedOutputStream << "Password: ";
     inputStream << "admin\n";
-    expectedOutputStream << "|> ";
+    expectedOutputStream << "\n|> ";
 
     // Change password command
     inputStream << "change password\n";
@@ -206,10 +212,13 @@ TEST_F(LibrarityButDumberFixture, ShouldLetUserChangePassword) {
     // Inputs for password change
     expectedOutputStream << "|-> Old password: ";
     inputStream << "admin\n";
+    expectedOutputStream << "\n";
     expectedOutputStream << "|-> New password: ";
     inputStream << "veristr0nkandsecurpa$$w0rd\n";
+    expectedOutputStream << "\n";
     expectedOutputStream << "|-> New password (confirm): ";
     inputStream << "veristr0nkandsecurpa$$w0rd\n";
+    expectedOutputStream << "\n";
 
     // Expecting no error thrown, just regular prompt indicator
     expectedOutputStream << "|> ";
@@ -237,6 +246,7 @@ TEST_F(LibrarityButDumberFixture, ShouldLetUserChangePassword) {
     inputStream2 << "admin\n";
     expectedOutputStream << "Password: ";
     inputStream2 << "veristr0nkandsecurpa$$w0rd\n";
+    expectedOutputStream << "\n";
 
     // Expecting no error thrown, just regular prompt indicator
     expectedOutputStream << "|> ";

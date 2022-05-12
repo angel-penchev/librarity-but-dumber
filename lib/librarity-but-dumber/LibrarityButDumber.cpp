@@ -3,7 +3,6 @@
 //
 
 #include "LibrarityButDumber.h"
-#include "enums/WritingMode.h"
 
 int LibrarityButDumber::run() {
     // Set binary file locations and initialize a library object
@@ -19,12 +18,12 @@ int LibrarityButDumber::run() {
 
     // Getting user username input
     std::cout << "Username: ";
-    std::cin.getline(usernameInput, MAX_STR_LEN - 1);
+    std::cin.getline(usernameInput, MAX_STR_LEN);
 
     for (unsigned int i = 0; i < MAX_PWD_ATTEMPTS; i++) {
         // Getting user password input
         std::cout << "Password: ";
-        std::cin.getline(passwordInput, MAX_STR_LEN - 1);
+        PasswordHelper::inputPassword(&passwordInput[0], MAX_STR_LEN);
 
         // Attempt logging in with the submitted credentials
         user = library.loginUser(usernameInput, passwordInput);
@@ -42,7 +41,7 @@ int LibrarityButDumber::run() {
     }
 
     char command[MAX_CMD_LEN];
-    while (std::cout << "|> " && std::cin.getline(command, MAX_CMD_LEN - 1)) {
+    while (std::cout << "|> " && std::cin.getline(command, MAX_CMD_LEN)) {
         // Command for adding a user to the library
         if (!std::strcmp(command, "add user")) {
             // Validating whether the current user is administrator or not
@@ -58,7 +57,7 @@ int LibrarityButDumber::run() {
 
             char password[MAX_STR_LEN];
             std::cout << "|-> Password: ";
-            std::cin.getline(password, MAX_STR_LEN);
+            PasswordHelper::inputPassword(&password[0], MAX_STR_LEN - 1);
 
             char isAdminChar;
             std::cout << "|-> Is administrator (y/n): ";
@@ -76,15 +75,15 @@ int LibrarityButDumber::run() {
             // User input for password change
             char oldPassword[MAX_STR_LEN];
             std::cout << "|-> Old password: ";
-            std::cin.getline(oldPassword, MAX_STR_LEN);
+            PasswordHelper::inputPassword(&oldPassword[0], MAX_STR_LEN);
 
             char newPassword[MAX_STR_LEN];
             std::cout << "|-> New password: ";
-            std::cin.getline(newPassword, MAX_STR_LEN);
+            PasswordHelper::inputPassword(&newPassword[0], MAX_STR_LEN);
 
             char newPasswordConfirm[MAX_STR_LEN];
             std::cout << "|-> New password (confirm): ";
-            std::cin.getline(newPasswordConfirm, MAX_STR_LEN);
+            PasswordHelper::inputPassword(&newPasswordConfirm[0], MAX_STR_LEN);
 
             // Changing the user password
             library.changeUserPassword(user, oldPassword, newPassword, newPasswordConfirm);
@@ -324,4 +323,3 @@ int LibrarityButDumber::run() {
 
     return 0;
 }
-

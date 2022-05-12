@@ -8,6 +8,8 @@
 #include <iostream>
 #include <cstring>
 #include "library/Library.h"
+#include "enums/WritingMode.h"
+#include "helpers/PasswordHelper.h"
 
 #define MAX_PWD_ATTEMPTS 3
 #define MAX_CMD_LEN 32
