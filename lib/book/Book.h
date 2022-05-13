@@ -74,6 +74,10 @@ public:
     void updateContents(const char *line = "", bool isTruncateMode = true);
 
     void updateContents(std::ifstream &input, bool isTruncateMode = true);
+
+    static void validateRating(double newRating);
+
+    static void validateISBN(const char *newISBN);
 };
 
 

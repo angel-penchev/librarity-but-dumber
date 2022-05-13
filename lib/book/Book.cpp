@@ -3,6 +3,7 @@
 //
 
 #include "Book.h"
+#include "BookException.h"
 
 Book::Book(const char *name, const char *author, const char *description, double rating, const char *ISBN,
            const char *filename)
@@ -138,10 +139,8 @@ double Book::getRating() const {
 }
 
 void Book::setRating(double newRating) {
-    if (newRating < 0.0 || newRating > 10.0) {
-        std::cerr << "ERR: Invalid rating! Rating should be between 0.0 and 10.0!\n";
-        return;
-    }
+    // Validate new rating
+    Book::validateRating(rating);
 
     this->rating = newRating;
 }
@@ -155,39 +154,7 @@ void Book::setISBN(const char *newISBN) {
         return;
     }
 
-    // ISBN has a valid length
-    if (std::strlen(newISBN) != 13) {
-        std::cerr << "ERR: Invalid ISBN length!\n";
-        return;
-    }
-
-    // ISBN has a valid GS1 prefix (begins with 978 or 979)
-    if (std::strncmp(newISBN, "979", 3) != 0 && std::strncmp(newISBN, "978", 3) != 0) {
-        std::cerr << "ERR: Invalid ISBN GS1 prefix!\n";
-        return;
-    }
-
-    // ISBN checksumCharacter is valid + ISBN only contains numbers
-    unsigned int sum = 0;
-    for (unsigned int i = 0; i < 12; i++) {
-        unsigned int value = newISBN[i] - '0';
-        if (value > 9) {
-            std::cerr << "ERR: Invalid characters in ISBN!\n";
-            return;
-        }
-        sum += value * (i % 2 == 0 ? 1 : 3);
-    }
-
-    char checksumCharacter = newISBN[12];
-    if (checksumCharacter < '0' || checksumCharacter > '9') {
-        std::cerr << "ERR: Invalid ISBN checksum character!\n";
-        return;
-    }
-
-    if (sum % 10 != (checksumCharacter != '0' ? 10 - (checksumCharacter - '0') : 0)) {
-        std::cerr << "ERR: Invalid ISBN checksum!\n";
-        return;
-    }
+    Book::validateISBN(newISBN);
 
     this->ISBN = new char[std::strlen(newISBN) + 1];
     std::strncpy(this->ISBN, newISBN, std::strlen(newISBN) + 1);
@@ -209,8 +176,7 @@ void Book::setFilename(const char *newFilename) {
 void Book::printAllContents() const {
     std::ifstream booksContentsFile(this->filename, std::ios::in);
     if (!booksContentsFile) {
-        std::cerr << "ERR: Book content file could not be opened for reading!\n";
-        return;
+        throw BookException(BookErrorCode::CONTENTS_FILE_READING_ERR);
     }
 
     while (!booksContentsFile.eof()) {
@@ -224,8 +190,7 @@ void Book::printAllContents() const {
 void Book::printPaginatedContents(unsigned int linesCount) const {
     std::ifstream booksContentsFile(this->filename, std::ios::in);
     if (!booksContentsFile) {
-        std::cerr << "ERR: Book content file could not be opened for reading!\n";
-        return;
+        throw BookException(BookErrorCode::CONTENTS_FILE_READING_ERR);
     }
 
     while (!booksContentsFile.eof()) {
@@ -245,8 +210,7 @@ void Book::printPaginatedContents(unsigned int linesCount) const {
 void Book::printSentenceSeparatedContents() const {
     std::ifstream booksContentsFile(this->filename, std::ios::in);
     if (!booksContentsFile) {
-        std::cerr << "ERR: Book content file could not be opened for reading!\n";
-        return;
+        throw BookException(BookErrorCode::CONTENTS_FILE_READING_ERR);
     }
 
     while (!booksContentsFile.eof()) {
@@ -264,8 +228,7 @@ void Book::updateContents(const char *line, bool isTruncateMode) {
     std::ofstream booksContentsFile(
             this->filename, std::ios::out | (isTruncateMode ? std::ios::trunc : std::ios::app));
     if (!booksContentsFile) {
-        std::cerr << "ERR: Book content file could not be opened for reading!\n";
-        return;
+        throw BookException(BookErrorCode::CONTENTS_FILE_WRITING_ERR);
     }
 
     // Write the text input to the text file
@@ -279,14 +242,51 @@ void Book::updateContents(std::ifstream &input, bool isTruncateMode) {
     std::ofstream booksContentsFile(
             this->filename, std::ios::out | (isTruncateMode ? std::ios::trunc : std::ios::app));
     if (!booksContentsFile) {
-        std::cerr << "ERR: Book content file could not be opened for reading!\n";
-        return;
+        throw BookException(CONTENTS_FILE_WRITING_ERR);
     }
 
     // Copy the contents of the input file to the book contents file
     booksContentsFile << input.rdbuf();
 
     booksContentsFile.close();
+}
+
+void Book::validateRating(double newRating) {
+    // Rating in proper range
+    if (newRating < 0.0 || newRating > 10.0) {
+        throw BookException(BookErrorCode::INVALID_RATING_RANGE);
+    }
+}
+
+void Book::validateISBN(const char *newISBN) {
+    // ISBN has a valid length
+    if (std::strlen(newISBN) != 13) {
+        throw BookException(BookErrorCode::INVALID_ISBN_LENGTH);
+    }
+
+    // ISBN has a valid GS1 prefix (begins with 978 or 979)
+    if (std::strncmp(newISBN, "978", 3) != 0 && std::strncmp(newISBN, "979", 3) != 0) {
+        throw BookException(BookErrorCode::INVALID_ISBN_GS1_PREFIX);
+    }
+
+    // ISBN checksumCharacter is valid + ISBN only contains numbers
+    unsigned int sum = 0;
+    for (unsigned int i = 0; i < 12; i++) {
+        unsigned int value = newISBN[i] - '0';
+        if (value > 9) {
+            throw BookException(BookErrorCode::INVALID_ISBN_CHARACTERS);
+        }
+        sum += value * (i % 2 == 0 ? 1 : 3);
+    }
+
+    char checksumCharacter = newISBN[12];
+    if (checksumCharacter < '0' || checksumCharacter > '9') {
+        throw BookException(BookErrorCode::INVALID_ISBN_CHECKSUM_CHARACTER);
+    }
+
+    if (sum % 10 != (checksumCharacter != '0' ? 10 - (checksumCharacter - '0') : 0)) {
+        throw BookException(BookErrorCode::INVALID_ISBN_CHECKSUM);
+    }
 }
 
 void Book::copy(const Book &other) {
