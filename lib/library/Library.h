@@ -36,7 +36,7 @@ public:
 
     Library(const Library &other);
 
-    Library operator=(const Library &other);
+    Library &operator=(const Library &other);
 
     virtual ~Library();
 
