@@ -68,6 +68,11 @@ Library::~Library() {
 }
 
 Book *Library::addBook(const Book &book) {
+    // Verify a book with the same ISBN doesn't exist
+    if (this->findUserIndex(book.getISBN()) >= 0) {
+        throw LibraryException(LibraryErrorCode::DUPLICATE_USERNAME);
+    }
+
     Book *newArr = new Book[this->booksCount + 1];
 
     for (unsigned int i = 0; i < this->booksCount; i++) {
@@ -82,6 +87,11 @@ Book *Library::addBook(const Book &book) {
 }
 
 User *Library::addUser(const User &user) {
+    // Verify a user with the same username doesn't exist
+    if (this->findUserIndex(user.getUsername()) >= 0) {
+        throw LibraryException(LibraryErrorCode::DUPLICATE_USERNAME);
+    }
+
     User *newArr = new User[this->usersCount + 1];
 
     for (unsigned int i = 0; i < this->usersCount; i++) {
