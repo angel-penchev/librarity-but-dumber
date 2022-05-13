@@ -121,13 +121,25 @@ int LibrarityButDumber::run() {
             std::cin.getline(description, MAX_STR_LEN);
 
             double rating;
-            std::cout << "|-> Rating: ";
-            std::cin >> rating;
-            std::cin.ignore();
+            do {
+                std::cout << "|-> Rating: ";
+                std::cin >> rating;
+                std::cin.ignore();
+
+                if (!Book::isValidRating(rating)) {
+                    std::cerr << "ERR: Invalid rating!\n";
+                }
+            } while (!Book::isValidRating(rating));
 
             char ISBN[MAX_STR_LEN];
-            std::cout << "|-> ISBN: ";
-            std::cin.getline(ISBN, MAX_STR_LEN);
+            do {
+                std::cout << "|-> ISBN: ";
+                std::cin.getline(ISBN, MAX_STR_LEN);
+
+                if (!Book::isValidISBN(ISBN)) {
+                    std::cerr << "ERR: Invalid ISBN!\n";
+                }
+            } while (!Book::isValidISBN(ISBN));
 
             char filename[MAX_STR_LEN];
             std::cout << "|-> Filename: ";
@@ -229,8 +241,14 @@ int LibrarityButDumber::run() {
             std::cin.getline(author, MAX_STR_LEN);
 
             char ISBN[MAX_STR_LEN];
-            std::cout << "|-> ISBN: ";
-            std::cin.getline(ISBN, MAX_STR_LEN);
+            do {
+                std::cout << "|-> ISBN: ";
+                std::cin.getline(ISBN, MAX_STR_LEN);
+
+                if (!Book::isValidISBN(ISBN)) {
+                    std::cerr << "ERR: Invalid ISBN!\n";
+                }
+            } while (!Book::isValidISBN(ISBN));
 
             // Search for the book and remove it if it's found
             try {
@@ -270,8 +288,14 @@ int LibrarityButDumber::run() {
             std::cin.getline(author, MAX_STR_LEN);
 
             char ISBN[MAX_STR_LEN];
-            std::cout << "|-> ISBN: ";
-            std::cin.getline(ISBN, MAX_STR_LEN);
+            do {
+                std::cout << "|-> ISBN: ";
+                std::cin.getline(ISBN, MAX_STR_LEN);
+
+                if (!Book::isValidISBN(ISBN)) {
+                    std::cerr << "ERR: Invalid ISBN!\n";
+                }
+            } while (!Book::isValidISBN(ISBN));
 
             char descriptionSnippet[MAX_STR_LEN];
             std::cout << "|-> Description snippet: ";
@@ -297,8 +321,14 @@ int LibrarityButDumber::run() {
             std::cin.getline(author, MAX_STR_LEN);
 
             char ISBN[MAX_STR_LEN];
-            std::cout << "|-> ISBN: ";
-            std::cin.getline(ISBN, MAX_STR_LEN);
+            do {
+                std::cout << "|-> ISBN: ";
+                std::cin.getline(ISBN, MAX_STR_LEN);
+
+                if (!Book::isValidISBN(ISBN)) {
+                    std::cerr << "ERR: Invalid ISBN!\n";
+                }
+            } while (!Book::isValidISBN(ISBN));
 
             // Selecting which print mode should be used
             unsigned int modeNumber;

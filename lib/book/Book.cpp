@@ -289,6 +289,24 @@ void Book::validateISBN(const char *newISBN) {
     }
 }
 
+bool Book::isValidRating(double newRating) {
+    try {
+        Book::validateRating(newRating);
+    } catch (BookException &exception) {
+        return false;
+    }
+    return true;
+}
+
+bool Book::isValidISBN(const char *newISBN) {
+    try {
+        Book::validateISBN(newISBN);
+    } catch (BookException &exception) {
+        return false;
+    }
+    return true;
+}
+
 void Book::copy(const Book &other) {
     this->setName(other.getName());
     this->setAuthor(other.getAuthor());
