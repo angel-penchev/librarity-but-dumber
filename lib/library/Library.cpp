@@ -3,6 +3,7 @@
 //
 
 #include "Library.h"
+#include "LibraryException.h"
 
 Library::Library() {
     this->books = new Book[0];
@@ -147,18 +148,17 @@ void Library::printBooks() const {
 
 void Library::printBookContent(Book *book, ReadingMode readingMode, unsigned int linesCount) {
     switch (readingMode) {
-        case WHOLE_BOOK:
+        case ReadingMode::WHOLE_BOOK:
             book->printAllContents();
             break;
-        case PAGES:
+        case ReadingMode::PAGES:
             book->printPaginatedContents(linesCount);
             break;
-        case SENTENCES:
+        case ReadingMode::SENTENCES:
             book->printSentenceSeparatedContents();
             break;
         default:
-            std::cerr << "ERR: Invalid reading mode!\n";
-            break;
+            throw LibraryException(LibraryErrorCode::INVALID_READING_MODE);
     }
 }
 
@@ -197,14 +197,12 @@ void Library::changeUserPassword(User *user, const char *oldPassword, const char
                                  const char *newPasswordConfirm) const {
     // Verifying the old password matches the one stored
     if (!user->verifyPassword(oldPassword)) {
-        std::cerr << "ERR: Invalid old password!\n";
-        return;
+        throw LibraryException(LibraryErrorCode::INVALID_READING_MODE);
     }
 
     // Verifying the new password and its confirmation match
     if (std::strcmp(newPassword, newPasswordConfirm) != 0) {
-        std::cerr << "ERR: New password doesn't match!\n";
-        return;
+        throw LibraryException(LibraryErrorCode::MISMATCHING_PASSWORDS);
     }
 
     // Change the password

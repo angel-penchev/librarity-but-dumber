@@ -5,9 +5,11 @@ set(HEADER_FILES
         book/BookException.h
         user/User.h
         library/Library.h
+        library/LibraryException.h
         enums/ReadingMode.h
         enums/WritingMode.h
         enums/BookErrorCode.h
+        enums/LibraryErrorCode.h
         helpers/PasswordHelper.h
         librarity-but-dumber/LibrarityButDumber.h
         )
@@ -17,6 +19,7 @@ set(SOURCE_FILES
         book/BookException.cpp
         user/User.cpp
         library/Library.cpp
+        library/LibraryException.cpp
         helpers/PasswordHelper.cpp
         librarity-but-dumber/LibrarityButDumber.cpp
         )
