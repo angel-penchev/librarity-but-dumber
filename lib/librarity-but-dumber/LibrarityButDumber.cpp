@@ -45,12 +45,13 @@ int LibrarityButDumber::run() {
         return 1;
     }
 
+    bool isAdministrator = user->isAdministrator();
     char command[MAX_CMD_LEN];
     while (std::cout << "|> " && std::cin.getline(command, MAX_CMD_LEN)) {
         // Command for adding a user to the library
         if (!std::strcmp(command, "add user")) {
             // Validating whether the current user is administrator or not
-            if (!user->isAdministrator()) {
+            if (!isAdministrator) {
                 std::cerr << "ERR: Admin privileges required!\n";
                 continue;
             }
@@ -102,7 +103,7 @@ int LibrarityButDumber::run() {
         // Command for adding a book to the library
         if (!std::strcmp(command, "add") || !std::strcmp(command, "add book")) {
             // Validating whether the current user is administrator or not
-            if (!user->isAdministrator()) {
+            if (!isAdministrator) {
                 std::cerr << "ERR: Admin privileges required!\n";
                 continue;
             }
@@ -226,7 +227,7 @@ int LibrarityButDumber::run() {
         // Command for removing a book from the library
         if (!std::strcmp(command, "remove")) {
             // Validating whether the current user is administrator or not
-            if (!user->isAdministrator()) {
+            if (!isAdministrator) {
                 std::cerr << "ERR: Admin privileges required!\n";
                 continue;
             }
