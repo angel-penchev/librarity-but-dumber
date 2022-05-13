@@ -5,9 +5,7 @@
 #include "Library.h"
 #include "LibraryException.h"
 
-Library::Library() {
-    this->books = new Book[0];
-    this->users = new User[0];
+Library::Library() : books(new Book[0]), users(new User[0]), booksFilename(), usersFilename() {
     this->setBooksFilename("");
     this->setUsersFilename("");
 }
@@ -51,11 +49,11 @@ Library::Library(const char *booksFilename, const char *usersFilename) : books(n
     usersFile.close();
 }
 
-Library::Library(const Library &other) {
+Library::Library(const Library &other) : books(), users(), booksFilename(), usersFilename() {
     this->copy(other);
 }
 
-Library Library::operator=(const Library &other) {
+Library &Library::operator=(const Library &other) {
     if (this != &other) {
         this->clear();
         this->copy(other);

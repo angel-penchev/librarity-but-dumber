@@ -20,11 +20,11 @@ Book::Book(const char *name, const char *author, const char *description, double
     this->setFilename(filename);
 }
 
-Book::Book(const Book &other) {
+Book::Book(const Book &other) : name(), author(), description(), rating(), ISBN(), filename() {
     this->copy(other);
 }
 
-Book::Book(std::istream &in) {
+Book::Book(std::istream &in) : name(), author(), description(), rating(), ISBN(), filename() {
     unsigned int nameLength;
     in.read((char *) &nameLength, sizeof(nameLength));
     this->name = new char[nameLength];

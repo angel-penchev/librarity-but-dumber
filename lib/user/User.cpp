@@ -10,11 +10,11 @@ User::User(const char *username, const char *password, bool isAdmin)
     setPassword(password);
 }
 
-User::User(const User &other) {
+User::User(const User &other) : username(), passwordHash(), isAdmin() {
     this->copy(other);
 }
 
-User::User(std::istream &in) {
+User::User(std::istream &in) : username(), passwordHash(), isAdmin() {
     unsigned int usernameLength;
     in.read((char *) &usernameLength, sizeof(usernameLength));
     this->username = new char[usernameLength];
