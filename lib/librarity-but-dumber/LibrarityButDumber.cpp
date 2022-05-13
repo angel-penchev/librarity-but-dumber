@@ -3,6 +3,8 @@
 //
 
 #include "LibrarityButDumber.h"
+#include "book/BookException.h"
+#include "library/LibraryException.h"
 
 int LibrarityButDumber::run() {
     // Set binary file locations and initialize a library object
@@ -86,7 +88,12 @@ int LibrarityButDumber::run() {
             PasswordHelper::inputPassword(&newPasswordConfirm[0], MAX_STR_LEN);
 
             // Changing the user password
-            library.changeUserPassword(user, oldPassword, newPassword, newPasswordConfirm);
+            try {
+                library.changeUserPassword(user, oldPassword, newPassword, newPasswordConfirm);
+            } catch (LibraryException &exception) {
+                std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+                continue;
+            }
         }
 
         // Command for adding a book to the library
@@ -142,54 +149,60 @@ int LibrarityButDumber::run() {
 
             // Selecting which print mode should be used
             unsigned int modeNumber;
-
             do {
                 std::cout << "|-> Content writing mode (0: empty file, 1: console input, 2: copy from file): ";
                 std::cin >> modeNumber;
                 std::cin.ignore();
                 if (modeNumber > 2) {
-                    std::cerr << "WARN: Invalid mode number!\n";
+                    std::cerr << "ERR: Invalid mode number! "
+                              << "Mode should be 0: empty file, 1: console input or 2: copy from file.";
                 }
             } while (modeNumber > 2);
 
+            try {
+                // Create the new book and update the books file
+                Book *book = library.addBook(Book(name, author, description, rating, ISBN, filename));
+                library.updateBooksFile();
 
-            // Create the new book and update the books file
-            Book *book = library.addBook(Book(name, author, description, rating, ISBN, filename));
-            library.updateBooksFile();
+                // Create and fill the book contents file
+                switch ((WritingMode) modeNumber) {
+                    case WritingMode::NONE:
+                        // Write an empty string to the book contents file
+                        book->updateContents();
+                        break;
 
-            // Create and fill the book contents file
-            switch ((WritingMode) modeNumber) {
-                case NONE:
-                    // Write an empty string to the book contents file
-                    book->updateContents();
-                    break;
-                case STANDARD_IN:
-                    std::cout << "Write the book content below (write \"--end--\" or press Ctrl+D to end):\n";
+                    case WritingMode::STANDARD_IN:
+                        std::cout << "Write the book content below (write \"--end--\" or press Ctrl+D to end):\n";
 
-                    // Append new lines to the file until the user exits
-                    char line[MAX_CMD_LEN];
-                    while (std::cin.getline(line, MAX_CMD_LEN - 1) && std::strcmp(line, "--end--") != 0) {
-                        book->updateContents(line, false);
-                    }
-                    break;
-                case FROM_FILE:
-                    // Get filename of the file from which to copy
-                    char sourceFilename[MAX_STR_LEN];
-                    std::cout << "|-> Source filename: ";
-                    std::cin.getline(sourceFilename, MAX_STR_LEN);
+                        // Append new lines to the file until the user exits
+                        char line[MAX_CMD_LEN];
+                        while (std::cin.getline(line, MAX_CMD_LEN - 1) && std::strcmp(line, "--end--") != 0) {
+                            book->updateContents(line, false);
+                        }
+                        break;
 
-                    // Open the source content file
-                    std::ifstream sourceFile(sourceFilename, std::ios::in);
-                    if (!sourceFile) {
-                        std::cerr << "ERR: Source content file could not be opened for reading!\n";
-                        book->updateContents(); // Create an empty file on failure
-                        continue;
-                    }
+                    case WritingMode::FROM_FILE:
+                        // Get filename of the file from which to copy
+                        char sourceFilename[MAX_STR_LEN];
+                        std::cout << "|-> Source filename: ";
+                        std::cin.getline(sourceFilename, MAX_STR_LEN);
 
-                    // Copy contents from source file and close it
-                    book->updateContents(sourceFile);
-                    sourceFile.close();
-                    break;
+                        // Open the source content file
+                        std::ifstream sourceFile(sourceFilename, std::ios::in);
+                        if (!sourceFile) {
+                            std::cerr << "ERR: Source content file could not be opened for reading!\n";
+                            book->updateContents(); // Create an empty file on failure
+                            continue;
+                        }
+
+                        // Copy contents from source file and close it
+                        book->updateContents(sourceFile);
+                        sourceFile.close();
+                        break;
+                }
+            } catch (const BookException &exception) {
+                std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+                continue;
             }
 
             continue;
@@ -217,8 +230,10 @@ int LibrarityButDumber::run() {
             std::cin.getline(ISBN, MAX_STR_LEN);
 
             // Search for the book and remove it if it's found
-            if (!library.removeBook(name, author, ISBN)) {
-                std::cerr << "ERR: Book not found!\n";
+            try {
+                library.removeBook(name, author, ISBN);
+            } catch (LibraryException &exception) {
+                std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
                 continue;
             }
 
@@ -289,7 +304,7 @@ int LibrarityButDumber::run() {
                 std::cin >> modeNumber;
                 std::cin.ignore();
                 if (modeNumber > 2) {
-                    std::cerr << "WARN: Invalid mode number!\n";
+                    std::cerr << "ERR: Invalid mode number! Mode should be 0: whole book, 1: pages or 2: sentences.\n";
                 }
             } while (modeNumber > 2);
 
@@ -310,7 +325,12 @@ int LibrarityButDumber::run() {
 
             // If the book is found -> print its information and start printing its content in the mode specified
             std::cout << *book << '\n';
-            Library::printBookContent(book, (ReadingMode) modeNumber, linesCount);
+            try {
+                Library::printBookContent(book, (ReadingMode) modeNumber, linesCount);
+            } catch (BookException &exception) {
+                std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+                continue;
+            }
 
             continue;
         }

@@ -113,11 +113,11 @@ Book *Library::findBook(const char *name, const char *author, const char *ISBN, 
     return &this->books[bookIndex];
 }
 
-bool Library::removeBook(const char *name, const char *author, const char *ISBN) {
+void Library::removeBook(const char *name, const char *author, const char *ISBN) {
     int bookIndex = this->findBookIndex(name, author, ISBN, "");
 
     if (bookIndex < 0) {
-        return false;
+        throw LibraryException(LibraryErrorCode::BOOK_NOT_FOUNT_ERR);
     }
 
     Book *newArr = new Book[--this->booksCount];
@@ -132,8 +132,6 @@ bool Library::removeBook(const char *name, const char *author, const char *ISBN)
 
     delete[] this->books;
     this->books = newArr;
-
-    return true;
 }
 
 void Library::sortBooks() {
@@ -166,7 +164,7 @@ void Library::printBookContent(Book *book, ReadingMode readingMode, unsigned int
             book->printSentenceSeparatedContents();
             break;
         default:
-            throw LibraryException(LibraryErrorCode::INVALID_READING_MODE);
+            throw std::invalid_argument("Unimplemented item");
     }
 }
 
@@ -205,12 +203,12 @@ void Library::changeUserPassword(User *user, const char *oldPassword, const char
                                  const char *newPasswordConfirm) const {
     // Verifying the old password matches the one stored
     if (!user->verifyPassword(oldPassword)) {
-        throw LibraryException(LibraryErrorCode::INVALID_READING_MODE);
+        throw LibraryException(LibraryErrorCode::INVALID_OLD_PASSWORD);
     }
 
     // Verifying the new password and its confirmation match
     if (std::strcmp(newPassword, newPasswordConfirm) != 0) {
-        throw LibraryException(LibraryErrorCode::MISMATCHING_PASSWORDS);
+        throw LibraryException(LibraryErrorCode::MISMATCHING_PASSWORDS_ERR);
     }
 
     // Change the password

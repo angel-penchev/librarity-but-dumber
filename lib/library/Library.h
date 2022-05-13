@@ -46,7 +46,7 @@ public:
 
     Book *findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const;
 
-    bool removeBook(const char *name, const char *author, const char *ISBN);
+    void removeBook(const char *name, const char *author, const char *ISBN);
 
     void sortBooks();
 
