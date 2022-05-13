@@ -34,6 +34,9 @@ int LibrarityButDumber::run() {
         if (user != nullptr) {
             break;
         }
+
+        // Show a warning for invalid password
+        std::cerr << "WARN: Invalid password! You have " << MAX_PWD_ATTEMPTS - i - 1 << " attempts left.\n";
     }
 
     // Authentication failed if the user is null after 3 password inputs

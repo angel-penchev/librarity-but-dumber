@@ -84,12 +84,17 @@ TEST_F(LibrarityButDumberFixture, ShouldExitOn3InvalidPassords) {
     // Inputting 3 invalid passwords
     expectedOutputStream << "Password: ";
     inputStream << "gosho\n";
+    expectedErrorStream << "WARN: Invalid password! You have 2 attempts left.\n";
     expectedOutputStream << "\n";
+
     expectedOutputStream << "Password: ";
     inputStream << "losho\n";
+    expectedErrorStream << "WARN: Invalid password! You have 1 attempts left.\n";
     expectedOutputStream << "\n";
+
     expectedOutputStream << "Password: ";
     inputStream << "posho\n";
+    expectedErrorStream << "WARN: Invalid password! You have 0 attempts left.\n";
     expectedOutputStream << "\n";
 
     // Expecting an authentication error message
