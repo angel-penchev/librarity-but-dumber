@@ -10,6 +10,7 @@ set(HEADER_FILES
         enums/WritingMode.h
         enums/BookErrorCode.h
         enums/LibraryErrorCode.h
+        enums/SortingMode.h
         helpers/PasswordHelper.h
         librarity-but-dumber/LibrarityButDumber.h
         )

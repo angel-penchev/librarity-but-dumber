@@ -11,6 +11,7 @@
 #include "../book/Book.h"
 #include "../user/User.h"
 #include "../enums/ReadingMode.h"
+#include "enums/SortingMode.h"
 
 class Library {
 private:
@@ -48,7 +49,7 @@ public:
 
     void removeBook(const char *name, const char *author, const char *ISBN);
 
-    void sortBooks();
+    void sortBooks(SortingMode sortingMode);
 
     void printBooks() const;
 

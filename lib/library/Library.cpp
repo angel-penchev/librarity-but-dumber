@@ -4,6 +4,7 @@
 
 #include "Library.h"
 #include "LibraryException.h"
+#include "enums/SortingMode.h"
 
 Library::Library() : books(new Book[0]), users(new User[0]), booksFilename(), usersFilename() {
     this->setBooksFilename("");
@@ -134,10 +135,23 @@ void Library::removeBook(const char *name, const char *author, const char *ISBN)
     this->books = newArr;
 }
 
-void Library::sortBooks() {
+void Library::sortBooks(SortingMode sortingMode) {
     for (int i = 0; i < (int) this->booksCount - 1; i++) {
         for (int j = i + 1; j < (int) this->booksCount; j++) {
-            if (std::strcmp(this->books[i].getName(), this->books[j].getName()) > 0) {
+            bool swapCondition;
+            switch (sortingMode) {
+                case SortingMode::NAME:
+                    swapCondition = std::strcmp(this->books[i].getName(), this->books[j].getName()) > 0;
+                    break;
+                case SortingMode::AUTHOR:
+                    swapCondition = std::strcmp(this->books[i].getAuthor(), this->books[j].getAuthor()) > 0;
+                    break;
+                case SortingMode::RATING:
+                    swapCondition = this->books[i].getRating() > this->books[j].getRating();
+                    break;
+            }
+
+            if (swapCondition) {
                 Book tempBook = books[i];
                 this->books[i] = this->books[j];
                 this->books[j] = tempBook;

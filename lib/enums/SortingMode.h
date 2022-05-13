@@ -1,0 +1,14 @@
+//
+// Created by apenchev on 5/14/2022.
+//
+
+#ifndef LIBRARITY_BUT_DUMBER_SORTINGMODE_H
+#define LIBRARITY_BUT_DUMBER_SORTINGMODE_H
+
+enum SortingMode {
+    NAME,
+    AUTHOR,
+    RATING
+};
+
+#endif //LIBRARITY_BUT_DUMBER_SORTINGMODE_H

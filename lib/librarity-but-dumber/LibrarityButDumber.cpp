@@ -273,7 +273,18 @@ int LibrarityButDumber::run() {
 
         // Command for sorting and outputting all books in the library
         if (!std::strcmp(command, "sort")) {
-            library.sortBooks();
+            // Selecting which print mode should be used
+            unsigned int modeNumber;
+            do {
+                std::cout << "|-> Sorting mode (0: by name, 1: by author, 2: by rating): ";
+                std::cin >> modeNumber;
+                std::cin.ignore();
+                if (modeNumber > 2) {
+                    std::cerr << "ERR: Invalid mode number! Mode should be 0: name, 1: author, 2: rating.\n";
+                }
+            } while (modeNumber > 2);
+
+            library.sortBooks((SortingMode) modeNumber);
             library.printBooks();
             continue;
         }
