@@ -12,6 +12,7 @@
 #include "../user/User.h"
 #include "../enums/ReadingMode.h"
 #include "enums/SortingMode.h"
+#include "enums/FindMode.h"
 
 class Library {
 private:
@@ -22,7 +23,7 @@ private:
     unsigned int booksCount = 0;
     unsigned int usersCount = 0;
 
-    int findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const;
+    int findBookIndex(const char *query, FindMode findMode, unsigned int startingPosition = 0) const;
 
     int findUserIndex(const char *username) const;
 
@@ -45,9 +46,9 @@ public:
 
     User *addUser(const User &user);
 
-    Book *findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const;
+    Book *findBook(const char *query, FindMode findMode) const;
 
-    void removeBook(const char *name, const char *author, const char *ISBN);
+    void removeBook(const char *ISBN);
 
     void sortBooks(SortingMode sortingMode);
 

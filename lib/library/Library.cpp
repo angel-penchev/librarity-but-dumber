@@ -5,6 +5,7 @@
 #include "Library.h"
 #include "LibraryException.h"
 #include "enums/SortingMode.h"
+#include "enums/FindMode.h"
 
 Library::Library() : books(new Book[0]), users(new User[0]), booksFilename(), usersFilename() {
     this->setBooksFilename("");
@@ -104,8 +105,8 @@ User *Library::addUser(const User &user) {
     return &this->users[this->usersCount++];
 }
 
-Book *Library::findBook(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const {
-    int bookIndex = this->findBookIndex(name, author, ISBN, descriptionSnippet);
+Book *Library::findBook(const char *query, FindMode findMode) const {
+    int bookIndex = this->findBookIndex(query, findMode);
 
     if (bookIndex < 0) {
         return nullptr;
@@ -114,8 +115,8 @@ Book *Library::findBook(const char *name, const char *author, const char *ISBN, 
     return &this->books[bookIndex];
 }
 
-void Library::removeBook(const char *name, const char *author, const char *ISBN) {
-    int bookIndex = this->findBookIndex(name, author, ISBN, "");
+void Library::removeBook(const char *ISBN) {
+    int bookIndex = this->findBookIndex(ISBN, FindMode::FIND_BY_ISBN);
 
     if (bookIndex < 0) {
         throw LibraryException(LibraryErrorCode::BOOK_NOT_FOUNT_ERR);
@@ -140,13 +141,13 @@ void Library::sortBooks(SortingMode sortingMode) {
         for (int j = i + 1; j < (int) this->booksCount; j++) {
             bool swapCondition;
             switch (sortingMode) {
-                case SortingMode::NAME:
+                case SortingMode::SORT_BY_NAME:
                     swapCondition = std::strcmp(this->books[i].getName(), this->books[j].getName()) > 0;
                     break;
-                case SortingMode::AUTHOR:
+                case SortingMode::SORT_BY_AUTHOR:
                     swapCondition = std::strcmp(this->books[i].getAuthor(), this->books[j].getAuthor()) > 0;
                     break;
-                case SortingMode::RATING:
+                case SortingMode::SORT_BY_RATING:
                     swapCondition = this->books[i].getRating() > this->books[j].getRating();
                     break;
             }
@@ -303,12 +304,25 @@ void Library::setUsersCount(unsigned int newUsersCount) {
 }
 
 int
-Library::findBookIndex(const char *name, const char *author, const char *ISBN, const char *descriptionSnippet) const {
-    for (unsigned int i = 0; i < this->booksCount; i++) {
-        if (!std::strcmp(this->books[i].getName(), name) &&
-            !std::strcmp(this->books[i].getAuthor(), author) &&
-            !strcmp(this->books[i].getISBN(), ISBN) &&
-            std::strstr(this->books[i].getDescription(), descriptionSnippet) != nullptr) {
+Library::findBookIndex(const char *query, FindMode findMode, unsigned int startingPosition) const {
+    for (unsigned int i = startingPosition; i < this->booksCount; i++) {
+        bool findCondition;
+        switch (findMode) {
+            case FindMode::FIND_BY_NAME:
+                findCondition = !std::strcmp(this->books[i].getName(), query);
+                break;
+            case FindMode::FIND_BY_AUTHOR:
+                findCondition = !std::strcmp(this->books[i].getAuthor(), query);
+                break;
+            case FindMode::FIND_BY_ISBN:
+                findCondition = !strcmp(this->books[i].getISBN(), query);
+                break;
+            case FindMode::FIND_BY_DESCRIPTION_SNIPPET:
+                findCondition = std::strstr(this->books[i].getDescription(), query) != nullptr;
+                break;
+        }
+
+        if (findCondition) {
             return (int) i;
         }
     }

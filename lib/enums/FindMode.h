@@ -1,0 +1,15 @@
+//
+// Created by apenchev on 5/14/2022.
+//
+
+#ifndef LIBRARITY_BUT_DUMBER_FINDMODE_H
+#define LIBRARITY_BUT_DUMBER_FINDMODE_H
+
+enum FindMode {
+    FIND_BY_NAME,
+    FIND_BY_AUTHOR,
+    FIND_BY_ISBN,
+    FIND_BY_DESCRIPTION_SNIPPET
+};
+
+#endif //LIBRARITY_BUT_DUMBER_FINDMODE_H

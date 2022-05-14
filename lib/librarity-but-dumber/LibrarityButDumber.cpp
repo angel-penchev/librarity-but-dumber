@@ -5,6 +5,7 @@
 #include "LibrarityButDumber.h"
 #include "book/BookException.h"
 #include "library/LibraryException.h"
+#include "enums/FindMode.h"
 
 int LibrarityButDumber::run() {
     // Set binary file locations and initialize a library object
@@ -233,14 +234,6 @@ int LibrarityButDumber::run() {
             }
 
             // Search criteria for the book to be removed
-            char name[MAX_STR_LEN];
-            std::cout << "|-> Name: ";
-            std::cin.getline(name, MAX_STR_LEN);
-
-            char author[MAX_STR_LEN];
-            std::cout << "|-> Author: ";
-            std::cin.getline(author, MAX_STR_LEN);
-
             char ISBN[MAX_STR_LEN];
             do {
                 std::cout << "|-> ISBN: ";
@@ -253,7 +246,7 @@ int LibrarityButDumber::run() {
 
             // Search for the book and remove it if it's found
             try {
-                library.removeBook(name, author, ISBN);
+                library.removeBook(ISBN);
             } catch (LibraryException &exception) {
                 std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
                 continue;
@@ -280,7 +273,7 @@ int LibrarityButDumber::run() {
                 std::cin >> modeNumber;
                 std::cin.ignore();
                 if (modeNumber > 2) {
-                    std::cerr << "ERR: Invalid mode number! Mode should be 0: name, 1: author, 2: rating.\n";
+                    std::cerr << "ERR: Invalid mode number! Mode should be 0: by name, 1: by author or 2: by rating.\n";
                 }
             } while (modeNumber > 2);
 
@@ -291,29 +284,48 @@ int LibrarityButDumber::run() {
 
         // Command for searching for a book and printing its information
         if (!std::strcmp(command, "find") || !std::strcmp(command, "search")) {
-            char name[MAX_STR_LEN];
-            std::cout << "|-> Name: ";
-            std::cin.getline(name, MAX_STR_LEN);
-
-            char author[MAX_STR_LEN];
-            std::cout << "|-> Author: ";
-            std::cin.getline(author, MAX_STR_LEN);
-
-            char ISBN[MAX_STR_LEN];
+            unsigned int modeNumber;
             do {
-                std::cout << "|-> ISBN: ";
-                std::cin.getline(ISBN, MAX_STR_LEN);
-
-                if (!Book::isValidISBN(ISBN)) {
-                    std::cerr << "ERR: Invalid ISBN!\n";
+                std::cout << "|-> Find mode (0: by name, 1: by author, 2: by ISBN, 3: by description snippet): ";
+                std::cin >> modeNumber;
+                std::cin.ignore();
+                if (modeNumber > 3) {
+                    std::cerr << "ERR: Invalid mode number! "
+                              << "Mode should be 0: by name, 1: by author, 2: by ISBN or 3: by description snippet.\n";
                 }
-            } while (!Book::isValidISBN(ISBN));
+            } while (modeNumber > 3);
 
-            char descriptionSnippet[MAX_STR_LEN];
-            std::cout << "|-> Description snippet: ";
-            std::cin.getline(descriptionSnippet, MAX_STR_LEN);
+            char query[MAX_STR_LEN];
 
-            Book *book = library.findBook(name, author, ISBN, descriptionSnippet);
+            switch ((FindMode) modeNumber) {
+                case FindMode::FIND_BY_NAME:
+                    std::cout << "|-> Name: ";
+                    std::cin.getline(query, MAX_STR_LEN);
+                    break;
+
+                case FindMode::FIND_BY_AUTHOR:
+                    std::cout << "|-> Author: ";
+                    std::cin.getline(query, MAX_STR_LEN);
+                    break;
+
+                case FindMode::FIND_BY_ISBN:
+                    do {
+                        std::cout << "|-> ISBN: ";
+                        std::cin.getline(query, MAX_STR_LEN);
+
+                        if (!Book::isValidISBN(query)) {
+                            std::cerr << "ERR: Invalid ISBN!\n";
+                        }
+                    } while (!Book::isValidISBN(query));
+                    break;
+
+                case FindMode::FIND_BY_DESCRIPTION_SNIPPET:
+                    std::cout << "|-> Description snippet: ";
+                    std::cin.getline(query, MAX_STR_LEN);
+                    break;
+            }
+
+            Book *book = library.findBook(query, (FindMode) modeNumber);
             if (book == nullptr) {
                 std::cerr << "ERR: Book not found!\n";
                 continue;
@@ -324,14 +336,6 @@ int LibrarityButDumber::run() {
 
         if (!std::strcmp(command, "print")) {
             // User input criteria for the book to print
-            char name[MAX_STR_LEN];
-            std::cout << "|-> Name: ";
-            std::cin.getline(name, MAX_STR_LEN);
-
-            char author[MAX_STR_LEN];
-            std::cout << "|-> Author: ";
-            std::cin.getline(author, MAX_STR_LEN);
-
             char ISBN[MAX_STR_LEN];
             do {
                 std::cout << "|-> ISBN: ";
@@ -362,7 +366,7 @@ int LibrarityButDumber::run() {
             }
 
             // Search for the book in the library
-            Book *book = library.findBook(name, author, ISBN, "");
+            Book *book = library.findBook(ISBN, FindMode::FIND_BY_ISBN);
             if (book == nullptr) {
                 std::cerr << "ERR: Book not found!\n";
                 continue;

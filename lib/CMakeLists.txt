@@ -11,6 +11,7 @@ set(HEADER_FILES
         enums/BookErrorCode.h
         enums/LibraryErrorCode.h
         enums/SortingMode.h
+        enums/FindMode.h
         helpers/PasswordHelper.h
         librarity-but-dumber/LibrarityButDumber.h
         )
