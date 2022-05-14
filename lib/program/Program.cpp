@@ -126,8 +126,13 @@ void Program::addUserCommand(Library &library, bool isAdministrator) {
     std::cin.ignore();
     bool isAdmin = isAdminChar == 'Y' || isAdminChar == 'y';
 
-    // Create the new user and update the users file
-    library.addUser(User(username, password, isAdmin));
+    // Try to create the new user and update the users file
+    try {
+        library.addUser(User(username, password, isAdmin));
+    } catch (LibraryException &exception) {
+        std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+        return;
+    }
     library.updateUsersFile();
 }
 
@@ -270,6 +275,9 @@ void Program::addBookCommand(Library library, bool isAdministrator) {
                 break;
         }
     } catch (const BookException &exception) {
+        std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+        return;
+    } catch (const LibraryException &exception) {
         std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
         return;
     }

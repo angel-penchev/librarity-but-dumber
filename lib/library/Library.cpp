@@ -67,7 +67,7 @@ Library::~Library() {
 
 Book *Library::addBook(const Book &book) {
     // Verify a book with the same ISBN doesn't exist
-    if (this->findUserIndex(book.getISBN()) >= 0) {
+    if (this->findBookIndex(book.getISBN(), FindMode::FIND_BY_ISBN) >= 0) {
         throw LibraryException(LibraryErrorCode::DUPLICATE_ISBN);
     }
 
