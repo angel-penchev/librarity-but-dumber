@@ -16,12 +16,12 @@ int Program::run() {
     char passwordInput[MAX_STR_LEN];
     User *userPtr;
 
-    // Getting userPtr username input
+    // Getting user username input
     std::cout << "Username: ";
     std::cin.getline(usernameInput, MAX_STR_LEN);
 
     for (unsigned int i = 0; i < MAX_PWD_ATTEMPTS; i++) {
-        // Getting userPtr password input
+        // Getting user password input
         std::cout << "Password: ";
         PasswordHelper::inputPassword(&passwordInput[0], MAX_STR_LEN);
 
@@ -37,9 +37,9 @@ int Program::run() {
         std::cerr << "WARN: Invalid password! You have " << MAX_PWD_ATTEMPTS - i - 1 << " attempts left.\n";
     }
 
-    // Authentication failed if the userPtr is null after 3 password inputs
+    // Authentication failed if the user is null after 3 password inputs
     if (userPtr == nullptr) {
-        std::cerr << "ERR: Failed to authenticate userPtr!\n";
+        std::cerr << "ERR: Failed to authenticate user!\n";
         return 1;
     }
 
