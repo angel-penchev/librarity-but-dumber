@@ -8,7 +8,7 @@
 #include <iostream>
 #include <cstring>
 #include "library/Library.h"
-#include "enums/WritingMode.h"
+#include "WritingMode.h"
 #include "helpers/PasswordHelper.h"
 
 #define MAX_PWD_ATTEMPTS 3

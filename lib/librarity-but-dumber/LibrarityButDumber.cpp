@@ -5,7 +5,7 @@
 #include "LibrarityButDumber.h"
 #include "book/BookException.h"
 #include "library/LibraryException.h"
-#include "enums/FindMode.h"
+#include "library/FindMode.h"
 
 int LibrarityButDumber::run() {
     // Set binary file locations and initialize a library object
@@ -244,9 +244,16 @@ int LibrarityButDumber::run() {
                 }
             } while (!Book::isValidISBN(ISBN));
 
+            // Whether to delete the contents file or not
+            char deleteContentsChar;
+            std::cout << "|-> Delete book contents file (y/n): ";
+            std::cin >> deleteContentsChar;
+            std::cin.ignore();
+            bool deleteContents = deleteContentsChar == 'Y' || deleteContentsChar == 'y';
+
             // Search for the book and remove it if it's found
             try {
-                library.removeBook(ISBN);
+                library.removeBook(ISBN, deleteContents);
             } catch (LibraryException &exception) {
                 std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
                 continue;
