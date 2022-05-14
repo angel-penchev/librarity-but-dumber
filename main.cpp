@@ -1,5 +1,5 @@
-#include "librarity-but-dumber/LibrarityButDumber.h"
+#include "include/program/Program.h"
 
 int main() {
-    return LibrarityButDumber::run();
+    return Program::run();
 }

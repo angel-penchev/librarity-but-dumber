@@ -3,7 +3,7 @@
 //
 #include <cstring>
 #include "gtest/gtest.h"
-#include "book/Book.h"
+#include "../../include/book/Book.h"
 
 std::string fixtureDirectoryFilepath = PATH_TO_FIXTURES;
 std::string inBookFilepath = fixtureDirectoryFilepath + "inBook.bin";

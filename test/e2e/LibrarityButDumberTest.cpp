@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "librarity-but-dumber/LibrarityButDumber.h"
+#include "../../include/program/Program.h"
 
 class LibrarityButDumberFixture : public ::testing::Test {
 protected:
@@ -51,7 +51,7 @@ TEST_F(LibrarityButDumberFixture, ShouldAcceptDefaultLoginCredentials) {
     expectedOutputStream << "\n";
 
     // Running the program
-    LibrarityButDumber::run();
+    Program::run();
 
     // Asserting if expected output equals actual
     ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
@@ -101,7 +101,7 @@ TEST_F(LibrarityButDumberFixture, ShouldExitOn3InvalidPassords) {
     expectedErrorStream << "ERR: Failed to authenticate user!\n";
 
     // Running the program
-    LibrarityButDumber::run();
+    Program::run();
 
     // Asserting if expected output equals actual
     ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
@@ -142,7 +142,7 @@ TEST_F(LibrarityButDumberFixture, ShouldLetAdministratorAddNewUsersToBinaryFile)
     expectedOutputStream << "\n";
 
     // Running the program
-    LibrarityButDumber::run();
+    Program::run();
 
     // Asserting if expected output equals actual
     ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
@@ -193,7 +193,7 @@ TEST_F(LibrarityButDumberFixture, ShouldLetAdministratorAddNewUsersToBinaryFile)
     expectedOutputStream << "\n";
 
     // Running the program
-    LibrarityButDumber::run();
+    Program::run();
 
     // Asserting if expected output equals actual
     ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
@@ -232,7 +232,7 @@ TEST_F(LibrarityButDumberFixture, ShouldLetUserChangePassword) {
     expectedOutputStream << "\n";
 
     // Running the program
-    LibrarityButDumber::run();
+    Program::run();
 
     // Asserting if expected output equals actual
     ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());
@@ -260,7 +260,7 @@ TEST_F(LibrarityButDumberFixture, ShouldLetUserChangePassword) {
     expectedOutputStream << "\n";
 
     // Running the program
-    LibrarityButDumber::run();
+    Program::run();
 
     // Asserting if expected output equals actual
     ASSERT_TRUE(outputStream.str() == expectedOutputStream.str());

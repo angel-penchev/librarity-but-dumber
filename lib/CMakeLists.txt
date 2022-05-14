@@ -1,29 +1,31 @@
-project(librarity_but_dumber)
+set(LIBRARY_NAME librarity_but_dumber_lib)
+
+project(${LIBRARY_NAME})
+
+set(HEADERS_DIR ../include)
 
 set(HEADER_FILES
-        book/Book.h
-        book/BookException.h
-        user/User.h
-        library/Library.h
-        library/LibraryException.h
-        enums/ReadingMode.h
-        enums/WritingMode.h
-        enums/BookErrorCode.h
-        enums/LibraryErrorCode.h
-        enums/SortingMode.h
-        enums/FindMode.h
-        helpers/PasswordHelper.h
-        librarity-but-dumber/LibrarityButDumber.h
-        )
+        ${HEADERS_DIR}/book/Book.h
+        ${HEADERS_DIR}/user/User.h
+        ${HEADERS_DIR}/library/Library.h
+        ${HEADERS_DIR}/helpers/ReadingMode.h
+        ${HEADERS_DIR}/helpers/WritingMode.h
+        ${HEADERS_DIR}/helpers/SortingMode.h
+        ${HEADERS_DIR}/helpers/FindMode.h
+        ${HEADERS_DIR}/helpers/PasswordHelper.h
+        ${HEADERS_DIR}/exception/BookErrorCode.h
+        ${HEADERS_DIR}/exception/LibraryErrorCode.h
+        ${HEADERS_DIR}/exception/BookException.h
+        ${HEADERS_DIR}/exception/LibraryException.h
+        ${HEADERS_DIR}/program/Program.h)
 
 set(SOURCE_FILES
         book/Book.cpp
-        book/BookException.cpp
         user/User.cpp
         library/Library.cpp
-        library/LibraryException.cpp
         helpers/PasswordHelper.cpp
-        librarity-but-dumber/LibrarityButDumber.cpp
-        )
+        exception/BookException.cpp
+        exception/LibraryException.cpp
+        program/Program.cpp)
 
-add_library(librarity_but_dumber_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
+add_library(${LIBRARY_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})

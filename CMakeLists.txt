@@ -1,16 +1,25 @@
 cmake_minimum_required(VERSION 3.16)
-project(librarity_but_dumber)
 
 set(CMAKE_CXX_STANDARD 11)
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILE main.cpp)
+set(PROJECT_NAME librarity_but_dumber)
+set(LIBRARY librarity_but_dumber_lib)
 
-add_executable(librarity_but_dumber_run ${SOURCE_FILES})
 
-include_directories(lib)
-add_subdirectory(lib)
+project(
+        ${PROJECT_NAME}
+        VERSION 1.0
+        DESCRIPTION "Command-line software solution for storing, organizing and accessing books."
+        LANGUAGES CXX)
 
-target_link_libraries(librarity_but_dumber_run librarity_but_dumber_lib)
-
+# Testing
 enable_testing()
-
 add_subdirectory(test)
+
+# Project
+add_executable(${PROJECT_NAME} ${SOURCE_FILE})
+
+add_subdirectory(lib)
+include_directories(include)
+
+target_link_libraries(${PROJECT_NAME} ${LIBRARY})

@@ -2,8 +2,7 @@
 // Created by apenchev on 5/4/2022.
 //
 
-#include "Book.h"
-#include "BookException.h"
+#include "../../include/book/Book.h"
 
 Book::Book(const char *name, const char *author, const char *description, double rating, const char *ISBN,
            const char *filename)

@@ -2,14 +2,9 @@
 // Created by apenchev on 5/13/2022.
 //
 
-#include <stdexcept>
-#include "LibraryException.h"
+#include "../../include/exception/LibraryException.h"
 
-LibraryException::LibraryException(LibraryErrorCode errorCode) : errorCode(errorCode) {}
-
-LibraryErrorCode LibraryException::getErrorCode() const {
-    return errorCode;
-}
+LibraryException::LibraryException(LibraryErrorCode errorCode) : Exception(errorCode) {}
 
 const char *LibraryException::getErrorMessage() const {
     switch (this->errorCode) {

@@ -2,12 +2,9 @@
 // Created by apenchev on 5/12/2022.
 //
 
-#include "LibrarityButDumber.h"
-#include "book/BookException.h"
-#include "library/LibraryException.h"
-#include "library/FindMode.h"
+#include "../../include/program/Program.h"
 
-int LibrarityButDumber::run() {
+int Program::run() {
     // Set binary file locations and initialize a library object
     const char *BOOKS_FILENAME = "books.bin";
     const char *USERS_FILENAME = "users.bin";

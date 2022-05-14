@@ -2,7 +2,7 @@
 // Created by apenchev on 5/13/2022.
 //
 
-#include "PasswordHelper.h"
+#include "../../include/helpers/PasswordHelper.h"
 
 #ifdef _WIN32
 

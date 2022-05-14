@@ -2,10 +2,7 @@
 // Created by apenchev on 5/4/2022.
 //
 
-#include "Library.h"
-#include "LibraryException.h"
-#include "enums/SortingMode.h"
-#include "enums/FindMode.h"
+#include "../../include/library/Library.h"
 
 Library::Library() : books(new Book[0]), users(new User[0]), booksFilename(), usersFilename() {
     this->setBooksFilename("");
@@ -115,7 +112,7 @@ Book *Library::findBook(const char *query, FindMode findMode) const {
     return &this->books[bookIndex];
 }
 
-void Library::removeBook(const char *ISBN) {
+void Library::removeBook(const char *ISBN, const bool deleteContentsFile) {
     int bookIndex = this->findBookIndex(ISBN, FindMode::FIND_BY_ISBN);
 
     if (bookIndex < 0) {

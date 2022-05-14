@@ -40,19 +40,19 @@ jobs:
         include:
           - os: ubuntu-latest
             TARGET: linux
-            COMPILE_FILENAME: librarity_but_dumber_run
+            COMPILE_FILENAME: librarity_but_dumber
             RELEASE_FILENAME: librarity-linux64
             ASSET_MIME: application/zip
             SLASH: /
           - os: macos-latest
             TARGET: macos
-            COMPILE_FILENAME: librarity_but_dumber_run
+            COMPILE_FILENAME: librarity_but_dumber
             RELEASE_FILENAME: librarity-macos
             ASSET_MIME: application/zip
             SLASH: /
           - os: windows-latest
             TARGET: windows
-            COMPILE_FILENAME: Release\\librarity_but_dumber_run.exe
+            COMPILE_FILENAME: Release\\librarity_but_dumber.exe
             RELEASE_FILENAME: librarity-win64.exe
             ASSET_MIME: application/vnd.microsoft.portable-executable
             SLASH: \

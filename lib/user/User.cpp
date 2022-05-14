@@ -2,7 +2,7 @@
 // Created by apenchev on 5/4/2022.
 //
 
-#include "User.h"
+#include "../../include/user/User.h"
 
 User::User(const char *username, const char *password, bool isAdmin)
         : username(), passwordHash(), isAdmin(isAdmin) {

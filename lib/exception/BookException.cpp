@@ -2,13 +2,9 @@
 // Created by apenchev on 5/13/2022.
 //
 
-#include "BookException.h"
+#include "../../include/exception/BookException.h"
 
-BookException::BookException(BookErrorCode errorCode) : errorCode(errorCode) {}
-
-BookErrorCode BookException::getErrorCode() const {
-    return this->errorCode;
-}
+BookException::BookException(BookErrorCode errorCode) : Exception(errorCode) {}
 
 const char *BookException::getErrorMessage() const {
     switch (this->errorCode) {
