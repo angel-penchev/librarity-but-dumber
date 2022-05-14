@@ -38,9 +38,9 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const Book &book);
 
-    virtual ~Book();
+    friend std::ofstream &operator<<(std::ofstream &out, const Book &book);
 
-    void serialize(std::ostream &out);
+    virtual ~Book();
 
     char *getName() const;
 

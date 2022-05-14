@@ -31,9 +31,9 @@ public:
 
     User &operator=(const User &other);
 
-    virtual ~User();
+    friend std::ofstream &operator<<(std::ofstream &out, const User& user);
 
-    void serialize(std::ostream &out);
+    virtual ~User();
 
     bool verifyPassword(const char *password);
 

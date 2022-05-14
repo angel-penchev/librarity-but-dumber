@@ -66,32 +66,34 @@ std::ostream &operator<<(std::ostream &os, const Book &book) {
     return os;
 }
 
-Book::~Book() {
-    this->clear();
+std::ofstream &operator<<(std::ofstream &out, const Book &book) {
+    unsigned int nameLength = std::strlen(book.name) + 1;
+    out.write((const char *) &nameLength, sizeof(nameLength));
+    out.write((const char *) book.name, nameLength);
+
+    unsigned int authorLength = std::strlen(book.author) + 1;
+    out.write((const char *) &authorLength, sizeof(authorLength));
+    out.write((const char *) book.author, authorLength);
+
+    unsigned int descriptionLength = std::strlen(book.description) + 1;
+    out.write((const char *) &descriptionLength, sizeof(descriptionLength));
+    out.write((const char *) book.description, descriptionLength);
+
+    out.write((const char *) &book.rating, sizeof(book.rating));
+
+    unsigned int ISBNLength = std::strlen(book.ISBN) + 1;
+    out.write((const char *) &ISBNLength, sizeof(ISBNLength));
+    out.write((const char *) book.ISBN, ISBNLength);
+
+    unsigned int filenameLength = std::strlen(book.filename) + 1;
+    out.write((const char *) &filenameLength, sizeof(filenameLength));
+    out.write((const char *) book.filename, filenameLength);
+
+    return out;
 }
 
-void Book::serialize(std::ostream &out) {
-    unsigned int nameLength = std::strlen(this->name) + 1;
-    out.write((const char *) &nameLength, sizeof(nameLength));
-    out.write((const char *) this->name, nameLength);
-
-    unsigned int authorLength = std::strlen(this->author) + 1;
-    out.write((const char *) &authorLength, sizeof(authorLength));
-    out.write((const char *) this->author, authorLength);
-
-    unsigned int descriptionLength = std::strlen(this->description) + 1;
-    out.write((const char *) &descriptionLength, sizeof(descriptionLength));
-    out.write((const char *) this->description, descriptionLength);
-
-    out.write((const char *) &this->rating, sizeof(this->rating));
-
-    unsigned int ISBNLength = std::strlen(this->ISBN) + 1;
-    out.write((const char *) &ISBNLength, sizeof(ISBNLength));
-    out.write((const char *) this->ISBN, ISBNLength);
-
-    unsigned int filenameLength = std::strlen(this->filename) + 1;
-    out.write((const char *) &filenameLength, sizeof(filenameLength));
-    out.write((const char *) this->filename, filenameLength);
+Book::~Book() {
+    this->clear();
 }
 
 char *Book::getName() const {
@@ -231,7 +233,8 @@ void Book::updateContents(const char *line, bool isTruncateMode) const {
     }
 
     // Write the text input to the text file
-    booksContentsFile << line << '\n';
+    unsigned int lineLength = std::strlen(line) + 1;
+    booksContentsFile.write(line, lineLength) << '\n';
 
     booksContentsFile.close();
 }

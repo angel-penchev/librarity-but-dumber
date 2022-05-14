@@ -79,7 +79,7 @@ TEST_F(BookFixture, ShouldProvideAMethodForSerilizationToABinaryFile) {
     // Serialize a book to a binary file
     std::ofstream outFile(outBookFilepath, std::ios::binary | std::ios::out | std::ios::trunc);
     ASSERT_TRUE(outFile);
-    book->serialize(outFile);
+    outFile << *book;
     outFile.close();
 
     // Verify file contents

@@ -40,16 +40,18 @@ User::~User() {
     this->clear();
 }
 
-void User::serialize(std::ostream &out) {
-    unsigned int usernameLength = std::strlen(this->username) + 1;
+std::ofstream &operator<<(std::ofstream &out, const User& user) {
+    unsigned int usernameLength = std::strlen(user.username) + 1;
     out.write((const char *) &usernameLength, sizeof(usernameLength));
-    out.write((const char *) this->username, usernameLength);
+    out.write((const char *) user.username, usernameLength);
 
-    unsigned int passwordHashLength = std::strlen(this->passwordHash) + 1;
+    unsigned int passwordHashLength = std::strlen(user.passwordHash) + 1;
     out.write((const char *) &passwordHashLength, sizeof(passwordHashLength));
-    out.write((const char *) this->passwordHash, passwordHashLength);
+    out.write((const char *) user.passwordHash, passwordHashLength);
 
-    out.write((const char *) &this->isAdmin, sizeof(this->isAdmin));
+    out.write((const char *) &user.isAdmin, sizeof(user.isAdmin));
+
+    return out;
 }
 
 bool User::verifyPassword(const char *password) {
