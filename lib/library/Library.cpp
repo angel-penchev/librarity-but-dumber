@@ -211,10 +211,17 @@ User *Library::loginUser(const char *username, const char *password) const {
     return &this->users[userIndex];
 }
 
-void Library::changeUserPassword(User *user, const char *oldPassword, const char *newPassword,
+void Library::changeUserPassword(const char *username, const char *oldPassword, const char *newPassword,
                                  const char *newPasswordConfirm) const {
+    // Find the user by username
+    int userIndex = this->findUserIndex(username);
+    if (userIndex < 0) {
+        throw LibraryException(LibraryErrorCode::BOOK_NOT_FOUNT_ERR);
+
+    }
+
     // Verifying the old password matches the one stored
-    if (!user->verifyPassword(oldPassword)) {
+    if (!this->users[userIndex].verifyPassword(oldPassword)) {
         throw LibraryException(LibraryErrorCode::INVALID_OLD_PASSWORD);
     }
 
@@ -224,7 +231,7 @@ void Library::changeUserPassword(User *user, const char *oldPassword, const char
     }
 
     // Change the password
-    user->setPassword(newPassword);
+    this->users[userIndex].setPassword(newPassword);
 
     // Update users file after the change
     this->updateUsersFile();

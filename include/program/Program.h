@@ -19,6 +19,10 @@
 #define MAX_LINE_LEN 8196
 
 class Program {
+private:
+    static void addUserCommand(Library& library, bool isAdministrator);
+
+    static void changePasswordCommand(Library& library, const char* username);
 public:
     static int run();
 };
