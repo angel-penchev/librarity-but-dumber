@@ -13,6 +13,7 @@ set(HEADER_FILES
         ${HEADERS_DIR}/helpers/SortingMode.h
         ${HEADERS_DIR}/helpers/FindMode.h
         ${HEADERS_DIR}/helpers/PasswordHelper.h
+        ${HEADERS_DIR}/helpers/StringHelper.h
         ${HEADERS_DIR}/exception/BookErrorCode.h
         ${HEADERS_DIR}/exception/LibraryErrorCode.h
         ${HEADERS_DIR}/exception/BookException.h
@@ -24,8 +25,9 @@ set(SOURCE_FILES
         user/User.cpp
         library/Library.cpp
         helpers/PasswordHelper.cpp
+        helpers/StringHelper.cpp
         exception/BookException.cpp
         exception/LibraryException.cpp
-        program/Program.cpp)
+        program/Program.cpp helpers/StringHelper.cpp)
 
 add_library(${LIBRARY_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})

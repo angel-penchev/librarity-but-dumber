@@ -3,6 +3,7 @@
 //
 
 #include "../../include/library/Library.h"
+#include "../../include/helpers/StringHelper.h"
 
 Library::Library() : books(new Book[0]), users(new User[0]), booksFilename(), usersFilename() {
     this->setBooksFilename("");
@@ -67,7 +68,7 @@ Library::~Library() {
 Book *Library::addBook(const Book &book) {
     // Verify a book with the same ISBN doesn't exist
     if (this->findUserIndex(book.getISBN()) >= 0) {
-        throw LibraryException(LibraryErrorCode::DUPLICATE_USERNAME);
+        throw LibraryException(LibraryErrorCode::DUPLICATE_ISBN);
     }
 
     Book *newArr = new Book[this->booksCount + 1];
@@ -142,11 +143,21 @@ void Library::sortBooks(SortingMode sortingMode) {
         for (int j = i + 1; j < (int) this->booksCount; j++) {
             bool swapCondition;
             switch (sortingMode) {
-                case SortingMode::SORT_BY_NAME:
-                    swapCondition = std::strcmp(this->books[i].getName(), this->books[j].getName()) > 0;
+                case SortingMode::SORT_BY_NAME: {
+                    const char *lowercaseNameLeft = StringHelper::toLowercase(this->books[i].getName());
+                    const char *lowercaseNameRight = StringHelper::toLowercase(this->books[j].getName());
+                    swapCondition = std::strcmp(lowercaseNameLeft, lowercaseNameRight) > 0;
+                    delete[] lowercaseNameLeft;
+                    delete[] lowercaseNameRight;
+                }
                     break;
-                case SortingMode::SORT_BY_AUTHOR:
+                case SortingMode::SORT_BY_AUTHOR: {
+                    const char *lowercaseAuthorLeft = StringHelper::toLowercase(this->books[i].getAuthor());
+                    const char *lowercaseAuthorRight = StringHelper::toLowercase(this->books[j].getAuthor());
                     swapCondition = std::strcmp(this->books[i].getAuthor(), this->books[j].getAuthor()) > 0;
+                    delete[] lowercaseAuthorLeft;
+                    delete[] lowercaseAuthorRight;
+                }
                     break;
                 case SortingMode::SORT_BY_RATING:
                     swapCondition = this->books[i].getRating() > this->books[j].getRating();
