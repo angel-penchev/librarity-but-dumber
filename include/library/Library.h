@@ -8,12 +8,12 @@
 #include <iostream>
 #include <cstring>
 
-#include "../../include/book/Book.h"
-#include "../../include/user/User.h"
-#include "../../include/helpers/ReadingMode.h"
-#include "../../include/helpers/SortingMode.h"
-#include "../../include/helpers/FindMode.h"
-#include "../../include/exception/LibraryException.h"
+#include "../book/Book.h"
+#include "../user/User.h"
+#include "../helpers/ReadingMode.h"
+#include "../helpers/SortingMode.h"
+#include "../helpers/FindMode.h"
+#include "../exception/LibraryException.h"
 
 class Library {
 private:

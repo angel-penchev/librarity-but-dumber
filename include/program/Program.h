@@ -11,6 +11,7 @@
 #include "../helpers/WritingMode.h"
 #include "../helpers/PasswordHelper.h"
 #include "../exception/BookException.h"
+#include "../exception/Exception.h"
 #include "../exception/LibraryException.h"
 
 #define MAX_PWD_ATTEMPTS 3

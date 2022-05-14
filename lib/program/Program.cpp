@@ -306,6 +306,9 @@ void Program::removeBookCommand(Library library, bool isAdministrator) {
     } catch (LibraryException &exception) {
         std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
         return;
+    } catch (BookException &exception) {
+        std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+        return;
     }
 
     // Update the books file if the book is removed

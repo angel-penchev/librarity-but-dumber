@@ -119,6 +119,10 @@ void Library::removeBook(const char *ISBN, const bool deleteContentsFile) {
         throw LibraryException(LibraryErrorCode::BOOK_NOT_FOUNT_ERR);
     }
 
+    if (deleteContentsFile) {
+        this->books[bookIndex].deleteBookContents();
+    }
+
     Book *newArr = new Book[--this->booksCount];
 
     for (unsigned int i = 0; i < bookIndex; i++) {

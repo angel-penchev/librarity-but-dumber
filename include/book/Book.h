@@ -72,9 +72,11 @@ public:
 
     void printSentenceSeparatedContents() const;
 
-    void updateContents(const char *line = "", bool isTruncateMode = true);
+    void updateContents(const char *line = "", bool isTruncateMode = true) const;
 
-    void updateContents(std::ifstream &input, bool isTruncateMode = true);
+    void updateContents(std::ifstream &input, bool isTruncateMode = true) const;
+
+    void deleteBookContents() const;
 
     static void validateRating(double newRating);
 

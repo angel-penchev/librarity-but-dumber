@@ -222,7 +222,7 @@ void Book::printSentenceSeparatedContents() const {
     booksContentsFile.close();
 }
 
-void Book::updateContents(const char *line, bool isTruncateMode) {
+void Book::updateContents(const char *line, bool isTruncateMode) const {
     // Open contents file for writing
     std::ofstream booksContentsFile(
             this->filename, std::ios::out | (isTruncateMode ? std::ios::trunc : std::ios::app));
@@ -236,7 +236,7 @@ void Book::updateContents(const char *line, bool isTruncateMode) {
     booksContentsFile.close();
 }
 
-void Book::updateContents(std::ifstream &input, bool isTruncateMode) {
+void Book::updateContents(std::ifstream &input, bool isTruncateMode) const {
     // Open contents file for writing
     std::ofstream booksContentsFile(
             this->filename, std::ios::out | (isTruncateMode ? std::ios::trunc : std::ios::app));
@@ -248,6 +248,13 @@ void Book::updateContents(std::ifstream &input, bool isTruncateMode) {
     booksContentsFile << input.rdbuf();
 
     booksContentsFile.close();
+}
+
+void Book::deleteBookContents() const {
+    // Remove contents file
+    if (remove(this->filename)) {
+        throw BookException(BookErrorCode::CONTENTS_FILE_REMOVAL_ERR);
+    }
 }
 
 void Book::validateRating(double newRating) {

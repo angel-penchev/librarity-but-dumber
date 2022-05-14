@@ -12,6 +12,8 @@ const char *BookException::getErrorMessage() const {
             return "Book content file could not be opened for reading!";
         case CONTENTS_FILE_WRITING_ERR:
             return "Book content file could not be opened for writing!";
+        case CONTENTS_FILE_REMOVAL_ERR:
+            return "Book content file could not be deleted!";
         case INVALID_RATING_RANGE:
             return "Invalid rating! Rating should be between 0.0 and 10.0.";
         case INVALID_ISBN_LENGTH:
