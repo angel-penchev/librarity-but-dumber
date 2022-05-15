@@ -25,7 +25,7 @@
 
 
 ## Documentation
-Latest version of the project documentation is available at [docs/documentation.pdf](docs/documentation.pdf).
+Latest version of the project documentation is available at [docs/documentation.pdf](docs/documentation.pdf). Doxygen documentaion is also available [here](https://codedocs.xyz/angel-penchev/librarity-but-dumber/).
 
 
 ## Setup
