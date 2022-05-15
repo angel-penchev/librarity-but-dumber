@@ -1,1 +1,21 @@
 \section{Настройка на среда за разработка, компилиране и изпълнение}
+За да се настрои среда за разработка на проекта, трябва да се изпълнят следните стъпки:
+\begin{enumerate}
+    \item Да се изтегли хранилището на проекта.
+    \lstinputlisting[language=bash]{code/clone-repo.sh}
+
+    \item Да се компилира проекта на проекта. Това може да бъде направено като се изпълни следната командата:
+    \lstinputlisting[language=bash]{code/build-make.sh}
+    или ако инструмента Make е недостъпен:
+    \lstinputlisting[language=bash]{code/build.sh}
+
+    \item Да се изпълни проекта. Това може да бъде направено като се изпълни следната командата:
+    \lstinputlisting[language=bash]{code/run.sh}
+    или:
+    \lstinputlisting[language=bash]{code/run-make.sh}
+
+    За да се изпълнят тестовете на проекта, трябва да се изпълни следната командата:
+    \lstinputlisting[language=bash]{code/test.sh}
+    или:
+    \lstinputlisting[language=bash]{code/test-make.sh}
+\end{enumerate}

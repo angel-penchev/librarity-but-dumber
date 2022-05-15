@@ -1,1 +1,1 @@
-./librarity_but_dumber
+./cmake-build-debug/librarity_but_dumber
