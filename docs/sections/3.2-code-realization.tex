@@ -1,1 +1,121 @@
 \section{Програмна реализация на проекта}
+\subsection{Клас Book}
+Класът "Book" съдържа в себе си полета за име, автор, описание, име, автор, описание, рейтинг, международен стандартен номер (ISBN) и файлов път, където ще се запази текста на книгата.
+
+\lstinputlisting[language=C++]{code/book-properties.h}
+
+Класът има стандартен конструктор, копиращ конструктор, оператор за равенство и деструктор, които изпълняват каноничната форма, нужна при заделяне на динамична памет в класа.
+
+\lstinputlisting[language=C++]{code/book-canonical.h}
+
+"Book", също така, предоставя селектори и мутатори за промяна на полетата на класа, които заделят динамична памет, ако това е нужно.
+
+\lstinputlisting[language=C++]{code/book-getters-setters.h}
+
+Класът предефинира оператора << при принтиране и писане по изходен двоичен файлов поток.
+
+\lstinputlisting[language=C++]{code/book-operators.h}
+
+Класът реализира три метода за принтиране на съдържанието на книгите - метод принтиращ цялата книга наведнъж, метод принтиращ задаен брой редове и изчаквайки потвърждение да продължи и метод притиращ отделни изречения от книгата.
+
+\lstinputlisting[language=C++]{code/book-print-contents.cpp}
+
+Класът реализира методи за обновяване на текта на книгата. Поддържат се два метода на въвеждане - от стандартния вход и от текстови файл.
+
+\lstinputlisting[language=C++]{code/book-update-contents.cpp}
+
+Класът съдържащ информация за книгата, предоставя и методи за триене на съдържанието и от файловата система.
+
+\lstinputlisting[language=C++]{code/book-delete-contents.cpp}
+
+"Book" преоставя публични методи за валидация на данните на книгата. Поддържат се два метода за валидация - на ISBN и на рейтинг.
+
+\lstinputlisting[language=C++]{code/book-validators.h}
+
+
+\subsection{Клас User}
+
+Класът "User" съдържа в себе си полета за потребителско име, потребителска парола и за това дали има администраторски правомощия.
+\lstinputlisting[language=C++]{code/user-properties.h}
+
+Класът има стандартен конструктор, копиращ конструктор, оператор за равенство и деструктор, които изпълняват каноничната форма, нужна при заделяне на динамична памет в класа.
+
+\lstinputlisting[language=C++]{code/user-canonical.h}
+
+"User", също така, предоставя селектори и мутатори за промяна на полетата на класа, които заделят динамична памет, ако това е нужно.
+
+\lstinputlisting[language=C++]{code/user-getters-setters.h}
+
+Класът реализира метод за сериализация на съдържанието му във файл.
+\lstinputlisting[language=C++]{code/user-operators.cpp}
+
+
+Също така има метод за валидация на въведена потребителска парола.
+\lstinputlisting[language=C++]{code/user-verify-password.cpp}
+
+
+\subsection{Клас Library}
+
+Класът "User" съдържа в себе си два списъка - 1 за потребители и 1 за книги, както и полета за техните размери и имената на файловете, в които се запазват.
+\lstinputlisting[language=C++]{code/library-properties.h}
+
+Класът има стандартен конструктор, копиращ конструктор, оператор за равенство и деструктор, които изпълняват каноничната форма, нужна при заделяне на динамична памет в класа.
+
+\lstinputlisting[language=C++]{code/library-canonical.h}
+
+За да се конструира "Library" в Program се използва конструктор приемащ като аргументи пътищата на файловете за записване на книги и на потребители.
+
+\lstinputlisting[language=C++]{code/library-parameter-constructor.cpp}
+
+"Library" поддържа методи за добавяне на потребители и книги:
+\lstinputlisting[language=C++]{code/library-add-user-book.cpp}
+
+и за обновяване на съответните им файлове:
+\lstinputlisting[language=C++]{code/library-update-user-book-files.cpp}
+
+
+Класът също така има метод за изтриване на книги:
+\lstinputlisting[language=C++]{code/library-remove-book.cpp}
+
+за сортирането им:
+\lstinputlisting[language=C++]{code/library-sort-books.cpp}
+
+за търсенето им:
+\lstinputlisting[language=C++]{code/library-find-books.cpp}
+
+и за принтирането им:
+\lstinputlisting[language=C++]{code/library-print-book.cpp}
+
+Класът също така съдържа функции за вход на потребители и пормяна на паролите им:
+\lstinputlisting[language=C++]{code/library-user-methods.cpp}
+
+\subsection{Клас Program}
+
+Класът "Program" съдържа в себе си публичният статичен метод run(), който предоставя формата за въвеждане на данни за вход, след което започва командния цикъл. Класът също така има частни методи, които се извикват при въвеждането на конкретна команда.
+
+\lstinputlisting[language=C++]{code/program.h}
+
+Методът run() се извиква при стартиране на цялата програма.
+
+\lstinputlisting[language=C++]{code/main.cpp}
+
+
+\subsection{Класове за грешки}
+
+В проекта има дефиниран един абстрактен базов клас за грешка. Той дефинира в себе си код на грешката, който може да е от един от 2 изборни вида: BookErrorCode или LibraryErrorCode.
+
+\lstinputlisting[language=C++]{code/Exception.h}
+
+Грешката се имплементира от 2 класа: BookException и LibraryException, които дефинират съответветсвието между код на грешката и съобщението и. Тези грешки се обработват от класа Program и съобщенията им се представят на потребителя, когато това е нужно.
+
+\lstinputlisting[language=C++]{code/BookException.cpp}
+\lstinputlisting[language=C++]{code/LibraryException.cpp}
+
+\subsection{Помощни класове}
+Програмата реализира два помощни класа. PasswordHelper предоставя методи за въвеждане на паролите и скриването им на стандартния изход.
+
+\lstinputlisting[language=C++]{code/PasswordHelper.cpp}
+
+StringHelper предоставя един статичен метод за преобразуване на символни низове към символни низове единствено с малки букви.
+
+\lstinputlisting[language=C++]{code/StringHelper.cpp}
