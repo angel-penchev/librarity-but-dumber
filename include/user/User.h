@@ -23,11 +23,11 @@ private:
     void clear();
 
 public:
-    User(const char *username = "", const char *password = "", bool isAdmin = false);
+    explicit User(const char *username = "", const char *password = "", bool isAdmin = false);
 
     User(const User &other);
 
-    User(std::istream &in);
+    explicit User(std::istream &in);
 
     User &operator=(const User &other);
 

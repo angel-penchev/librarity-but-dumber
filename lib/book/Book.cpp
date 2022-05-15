@@ -6,7 +6,6 @@
 
 /**
  * Book parameter constructor.
- *
  * @param name Name of the Book (default: "Untitled")
  * @param author Name of the Book author **(default: "Unknown author")**
  * @param description Detailed Book description
@@ -98,7 +97,7 @@ std::ostream &operator<<(std::ostream &os, const Book &book) {
 
 /**
  * Output "<<" operator override for output file streams.
- * Serializes the information of a book in a binary output file.
+ * Serializes the information of a Book in a binary output file.
  * @param out Output file stream
  * @param book Reference to a Book object to output
  * @return
@@ -138,7 +137,7 @@ Book::~Book() {
 
 /**
  * Book name getter.
- * @return Book name.
+ * @return Book name
  */
 char *Book::getName() const {
     return this->name;
