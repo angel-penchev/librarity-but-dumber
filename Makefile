@@ -16,7 +16,7 @@ release:
 	cmake --build $(RELEASE_DIR) --config Release
 
 run:
-	./$(BUILD_DIR)/librarity_but_dumber_run
+	./$(BUILD_DIR)/librarity_but_dumber
 
 tests:
 	cd $(BUILD_DIR) ; ctest --test-dir -C Debug --output-on-failure --verbose

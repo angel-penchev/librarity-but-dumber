@@ -382,7 +382,7 @@ void Book::updateContents(std::ifstream &input, bool isTruncateMode) const {
 }
 
 /**
- * Deletes the book contents file
+ * Deletes the book contents file.
  */
 void Book::deleteBookContents() const {
     // Remove contents file
