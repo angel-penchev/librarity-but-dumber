@@ -18,6 +18,8 @@ public:
     T getErrorCode() const;
 
     virtual const char *getErrorMessage() const = 0;
+
+    const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override;
 };
 
 template<typename T>
@@ -26,6 +28,11 @@ Exception<T>::Exception(T errorCode) : errorCode(errorCode) {}
 template<typename T>
 T Exception<T>::getErrorCode() const {
     return this->errorCode;
+}
+
+template<typename T>
+const char *Exception<T>::what() const noexcept {
+    return this->getErrorMessage();
 }
 
 

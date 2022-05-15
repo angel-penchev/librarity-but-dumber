@@ -154,7 +154,7 @@ void Program::changePasswordCommand(Library &library, const char *username) {
     try {
         library.changeUserPassword(username, oldPassword, newPassword, newPasswordConfirm);
     } catch (LibraryException &exception) {
-        std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+        std::cerr << "ERR: " << exception.what() << '\n';
         return;
     }
 }
@@ -274,11 +274,8 @@ void Program::addBookCommand(Library library, bool isAdministrator) {
                 sourceFile.close();
                 break;
         }
-    } catch (const BookException &exception) {
-        std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
-        return;
-    } catch (const LibraryException &exception) {
-        std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+    } catch (const std::exception& exception) {
+        std::cerr << "ERR: " << exception.what() << '\n';
         return;
     }
 }
@@ -311,11 +308,8 @@ void Program::removeBookCommand(Library library, bool isAdministrator) {
     // Search for the book and remove it if it's found
     try {
         library.removeBook(ISBN, deleteContents);
-    } catch (LibraryException &exception) {
-        std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
-        return;
-    } catch (BookException &exception) {
-        std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+    } catch (std::exception &exception) {
+        std::cerr << "ERR: " << exception.what() << '\n';
         return;
     }
 
@@ -436,7 +430,7 @@ void Program::printCommand(Library library) {
     try {
         Library::printBookContent(book, (ReadingMode) modeNumber, linesCount);
     } catch (BookException &exception) {
-        std::cerr << "ERR: " << exception.getErrorMessage() << '\n';
+        std::cerr << "ERR: " << exception.what() << '\n';
         return;
     }
 }
