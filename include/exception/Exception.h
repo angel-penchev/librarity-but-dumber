@@ -19,7 +19,7 @@ public:
 
     virtual const char *getErrorMessage() const = 0;
 
-    const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override;
+    const char *what() const noexcept override;
 };
 
 template<typename T>
