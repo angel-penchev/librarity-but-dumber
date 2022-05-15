@@ -159,7 +159,7 @@ void Program::changePasswordCommand(Library &library, const char *username) {
     }
 }
 
-void Program::addBookCommand(Library library, bool isAdministrator) {
+void Program::addBookCommand(Library& library, bool isAdministrator) {
 // Validating whether the current user is isAdministrator or not
     if (!isAdministrator) {
         std::cerr << "ERR: Admin privileges required!\n";
@@ -280,7 +280,7 @@ void Program::addBookCommand(Library library, bool isAdministrator) {
     }
 }
 
-void Program::removeBookCommand(Library library, bool isAdministrator) {
+void Program::removeBookCommand(Library& library, bool isAdministrator) {
     // Validating whether the current user is administrator or not
     if (!isAdministrator) {
         std::cerr << "ERR: Admin privileges required!\n";
@@ -321,7 +321,7 @@ void Program::viewCommand(const Library& library) {
     library.printBooks();
 }
 
-void Program::sortCommand(Library library) {
+void Program::sortCommand(Library& library) {
     // Selecting which print mode should be used
     unsigned int modeNumber;
     do {
@@ -387,7 +387,7 @@ void Program::findCommand(const Library& library) {
     std::cout << *book;
 }
 
-void Program::printCommand(Library library) {
+void Program::printCommand(const Library& library) {
     // User input criteria for the book to print
     char ISBN[MAX_STR_LEN];
     do {
