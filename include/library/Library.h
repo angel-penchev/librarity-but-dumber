@@ -24,7 +24,7 @@ private:
     unsigned int booksCount = 0;
     unsigned int usersCount = 0;
 
-    int findBookIndex(const char *query, FindMode findMode, unsigned int startingPosition = 0) const;
+    int findBookIndex(const char *query, FindMode findMode, bool isCaseSensitive = true, unsigned int startingPosition = 0) const;
 
     int findUserIndex(const char *username) const;
 
