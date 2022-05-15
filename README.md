@@ -3,7 +3,7 @@
     Librarity <i>(but dumber)</i>
   </h1>
   <p align="center">
-    Software solution for storing, organizing and accessing books.<br />
+    Command-line software solution for storing, organizing and accessing books.<br />
     <sub>Semester project #1 for the object oriented programming (OOP) course in Faculty of mathematics and informatics (FMI) Computer science's first curriculum.</sub>
   </p>
 </div>
@@ -19,13 +19,13 @@
     <img src="https://img.shields.io/github/v/release/angel-penchev/librarity-but-dumber?style=flat-square"alt="release>
   </a>
   <a href="LICENSE">
-      <img src="https://img.shields.io/github/license/angel-penchev/librarity-but-dumber?style=flat-square" alt="license" />
+    <img src="https://img.shields.io/github/license/angel-penchev/librarity-but-dumber?style=flat-square" alt="license" />
   </a>
 </div>
 
 
 ## Documentation
-Latest version of the project documentation is available in [docs/documentation.pdf](docs/documentation.pdf).
+Latest version of the project documentation is available at [docs/documentation.pdf](docs/documentation.pdf).
 
 
 ## Setup
@@ -78,6 +78,10 @@ ctest --test-dir -C Debug --output-on-failure --verbose
 **Isn't this way too over-engineered?**
 
 YES.
+
+
+**Is it spell checked at all?**
+no... 😢
 
 
 ## Contributions
